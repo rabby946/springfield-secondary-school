@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Manage Results{% endblock %}
+{% block content %}
+<div class="admin-form">
+  <h2>Manage Results</h2>
+  <form method="post" enctype="multipart/form-data">
+    <div class="form-group">
+      <label>Password:</label>
+      <input type="password" name="password" required>
+    </div>
+    <div class="form-group">
+      <label>Title (e.g. “2024 Final Exam”):</label>
+      <input type="text" name="title" >
+    </div>
+    <div class="form-group">
+      <label>Description:</label>
+      <textarea name="description" rows="3" ></textarea>
+    </div>
+    <div class="form-group">
+      <label>PDF File:</label>
+      <input type="file" name="photo" accept="application/pdf" >
+    </div>
+    <div class="form-actions">
+      {% if last %}
+        <button type="submit" name="action" value="delete" class="btn btn-danger">
+          Delete Last Result
+        </button>
+      {% endif %}
+      <button type="submit" name="action" value="post" class="btn btn-primary">
+        Upload New Result
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %}

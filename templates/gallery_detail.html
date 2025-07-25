@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}{{ item.title }}{% endblock %}
+{% block content %}
+<div class="detail-container">
+  <h2>{{ item.title }}</h2>
+  <p>{{ item.description }}</p>
+
+  <div class="image-grid">
+    {% for img in item.images %}
+      <div class="img-card">
+        <img
+          src="{{ url_for('static', filename='images/gallery/' + img) }}"
+          alt="Gallery"
+          class="detail-img"
+          onclick="openLightbox('{{ url_for('static', filename='images/gallery/' + img) }}')">
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- Lightbox modal -->
+  <div id="lightbox" onclick="closeLightbox()">
+    <span class="close">&times;</span>
+    <img id="lightbox-img" class="lightbox-content">
+  </div>
+</div>
+<p><a href="{{ url_for('gallery') }}" class="btn">← Back to Gallery</a></p>
+{% endblock %}

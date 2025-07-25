@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Results{% endblock %}
+{% block content %}
+<h1>Results</h1>
+<div class="grid-2">
+  {% for r in results_items %}
+    <div class="glass-card">
+      <h3>{{ r.title }}</h3>
+      <small>Uploaded: {{ r.timestamp[:10] }}</small>
+      <p>{{ r.description }}</p>
+      <a href="{{ url_for('static', filename='files/results/' ~ r.filename) }}"
+         target="_blank" class="btn btn-secondary mt-2">
+        📄 Download / View PDF
+      </a>
+    </div>
+  {% else %}
+    <p>No result sheets published yet.</p>
+  {% endfor %}
+</div>
+{% endblock %}

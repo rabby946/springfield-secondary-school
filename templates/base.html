@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}High School{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="site-header">
+  <div class="header-container">
+    
+    <nav class="main-nav">
+      
+      <ul>
+
+        <li><a href="{{ url_for('home') }}"      class="{% if request.endpoint=='home' %}active{% endif %}">Home</a></li>
+        <li><a href="{{ url_for('news') }}"      class="{% if request.endpoint=='news' %}active{% endif %}">News</a></li>
+        <li><a href="{{ url_for('teachers') }}"  class="{% if request.endpoint=='teachers' %}active{% endif %}">Teachers</a></li>
+        <li><a href="{{ url_for('students') }}"  class="{% if request.endpoint=='students' %}active{% endif %}">Students</a></li>
+        <li><a href="{{ url_for('results') }}"   class="{% if request.endpoint=='results' %}active{% endif %}">Results</a></li>
+        <li><a href="{{ url_for('gallery') }}"   class="{% if request.endpoint=='gallery' %}active{% endif %}">Gallery</a></li>
+        <li><a href="{{ url_for('contact') }}"   class="{% if request.endpoint=='contact' %}active{% endif %}">Contact</a></li>
+        <li><a href="{{ url_for('login') }}"     class="{% if request.endpoint == 'login' %}active{% endif %}">Login</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+
+  <main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, msg in messages %}
+        {% if category == 'error' %}
+          <div class="glass-card message-card" style="color: red;">{{ msg }}</div>
+        {% else %}
+          <div class="glass-card message-card" style="color: rgb(4, 116, 4);">{{ msg }}</div>
+        {% endif %}
+      {% endfor %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <h4>About</h4><p>Our high school is committed to academic excellence and character building.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4><p>Email: fahimahmedviil@gmail.com <br>Phone: 01714850660</p>
+      </div>
+      <div class="footer-col">
+        <h4>Follow Us</h4><p><a href="www.facebook.com" target="_blank">Facebook</a><br><a href="twitter.com">Twitter</a><br><a href="instagram.com">Instagram</a></p>
+      </div>
+    </div>
+  </footer>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

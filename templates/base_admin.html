@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %}Admin Panel{% endblock %}
+{% block content %}
+
+<style>
+  .admin-dashboard {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .dashboard-card {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    padding: 2rem 3rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .dashboard-card h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    color: #222;
+  }
+
+  .admin-link {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 0.75rem;
+    text-decoration: none;
+    font-size: 1.1rem;
+    color: #333;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .admin-link:hover {
+    background-color: #007bff;
+    color: #fff;
+    transform: translateX(5px);
+  }
+
+  .admin-link span {
+    margin-right: 0.75rem;
+    font-weight: bold;
+    color: #007bff;
+    transition: color 0.2s;
+  }
+
+  .admin-link:hover span {
+    color: #d21010;
+  }
+</style>
+
+<div class="admin-dashboard">
+  <div class="dashboard-card">
+    <h2>⚙ Admin Dashboard</h2>
+    <a href="{{ url_for('news_admin') }}" class="admin-link"><span>📰</span> Manage News</a>
+    <a href="{{ url_for('gallery_admin') }}" class="admin-link"><span>🖼️</span> Manage Gallery</a>
+    <a href="{{ url_for('teacher_admin') }}" class="admin-link"><span>👨‍🏫</span> Manage Teachers</a>
+    <a href="{{ url_for('student_admin') }}" class="admin-link"><span>👨‍🎓</span> Manage Students</a>
+    
+    <a href="{{ url_for('result_admin') }}" class="admin-link">
+  <span>📊</span> Manage Results
+</a>
+<a href="{{ url_for('logout') }}" class="admin-link" style="color: red;"><span>🔓</span> <b>Logout</b></a>
+  </div>
+  
+</div>
+
+{% endblock %}
