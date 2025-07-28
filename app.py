@@ -13,12 +13,16 @@ BASE_DIR = os.path.dirname(__file__)
 NEWS_FILE = os.path.join(BASE_DIR, 'news.json')
 GALLERY_FILE = os.path.join(BASE_DIR, 'gallery_show.json')
 TEACHERS_FILE = os.path.join(BASE_DIR, 'teachers.json')
+MPOS_FILE = os.path.join(BASE_DIR, 'mpos.json')
+COMMITTEES_FILE = os.path.join(BASE_DIR, 'committees.json')
 STUDENTS_FILE = os.path.join(BASE_DIR, 'students.json')
 RESULTS_FILE = os.path.join(BASE_DIR, 'results.json')
 
 UPLOAD_DIRS = {
     'gallery': os.path.join(BASE_DIR, 'static', 'images', 'gallery'),
     'teachers': os.path.join(BASE_DIR, 'static', 'images', 'teachers'),
+    'mpos': os.path.join(BASE_DIR, 'static', 'images', 'mpos'),
+    'committees': os.path.join(BASE_DIR, 'static', 'images', 'committees'),
     'students': os.path.join(BASE_DIR, 'static', 'images', 'students'), 
     'results' : os.path.join(BASE_DIR, 'static', 'files', 'results')
 }
@@ -26,10 +30,11 @@ ADMIN_PASSWORD = 's118044'
 nonews = "No published news right now"
 Headline = {'news' : 'No published news right now'}
 # Ensure JSON files and upload directories exist
-for path in [NEWS_FILE, GALLERY_FILE, TEACHERS_FILE, STUDENTS_FILE, RESULTS_FILE]:
+for path in [NEWS_FILE, GALLERY_FILE, TEACHERS_FILE, MPOS_FILE, STUDENTS_FILE, RESULTS_FILE, COMMITTEES_FILE]:
     if not os.path.exists(path):
         with open(path, 'w', encoding='utf-8') as f:
             json.dump([], f)
+
 for directory in UPLOAD_DIRS.values():
     os.makedirs(directory, exist_ok=True)
 
@@ -63,6 +68,7 @@ def admin_required(view):
 def contact():
     return render_template('contact.html')
 
+
 @app.route('/results')
 def results():
     items = sorted(load_json(RESULTS_FILE), key=lambda x: x['timestamp'], reverse=True)
@@ -71,12 +77,13 @@ def results():
 
 @app.route('/')
 def home():
+    items = sorted(load_json(NEWS_FILE), key=lambda x: x['timestamp'], reverse=True)
+    Headline["news"] = items[0]['title'] if items else nonews
     return render_template('home.html', text=Headline["news"])
 
 @app.route('/news')
 def news():
     items = sorted(load_json(NEWS_FILE), key=lambda x: x['timestamp'], reverse=True)
-    Headline["news"] = items[0]['title'] if items else nonews
     return render_template('news.html', news_items=items)
 
 @app.route('/gallery')
@@ -89,9 +96,20 @@ def teachers():
     items = load_json(TEACHERS_FILE)
     return render_template('teachers.html', teacher_items=items)
 
+@app.route('/mpos')
+def mpos():
+    items = load_json(MPOS_FILE)
+    return render_template('mpos.html', mpo_items=items)
+
+@app.route('/committees')
+def committees():
+    items = load_json(COMMITTEES_FILE)
+    return render_template('committees.html', committee_items=items)
+
 @app.route('/students')
 def students():
     items = load_json(STUDENTS_FILE)
+
     return render_template('students.html', student_items=items)
 
 @app.route('/logout')
@@ -138,6 +156,20 @@ def teacher_detail(idx):
     if idx < 0 or idx >= len(items):
         return redirect(url_for('teachers'))
     return render_template('teacher_detail.html', teacher=items[idx])
+
+@app.route('/mpos/<int:idx>')
+def mpo_detail(idx):
+    items = load_json(MPOS_FILE)
+    if idx < 0 or idx >= len(items):
+        return redirect(url_for('mpos'))
+    return render_template('mpo_detail.html', mpo=items[idx])
+
+@app.route('/committees/<int:idx>')
+def committee_detail(idx):
+    items = load_json(COMMITTEES_FILE)
+    if idx < 0 or idx >= len(items):
+        return redirect(url_for('committees'))
+    return render_template('committee_detail.html', committee=items[idx])
 
 @app.route('/students/<int:idx>')
 def student_detail(idx):
@@ -197,7 +229,9 @@ def admin_crud(json_file, upload_dir=None, template_name=None):
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(upload_dir, filename))
                 new_item['filename'] = filename
-
+            else:
+                flash('No file uploaded.', 'error')
+                return redirect(request.path)
             items.insert(0, new_item)
             save_json(json_file, items)
             flash('New item added!', 'success')
@@ -277,14 +311,23 @@ app.add_url_rule('/admin/news', 'news_admin_post', admin_required(news_action), 
 teach_view, teach_action = admin_crud(TEACHERS_FILE, UPLOAD_DIRS['teachers'], 'teacher_admin.html')
 app.add_url_rule('/admin/teachers', 'teacher_admin', admin_required(teach_view), methods=['GET'])
 app.add_url_rule('/admin/teachers', 'teacher_admin_post', admin_required(teach_action), methods=['POST'])
+# MPOs
+teach_view, teach_action = admin_crud(MPOS_FILE, UPLOAD_DIRS['mpos'], 'mpo_admin.html')
+app.add_url_rule('/admin/mpos', 'mpo_admin', admin_required(teach_view), methods=['GET'])
+app.add_url_rule('/admin/mpos', 'mpo_admin_post', admin_required(teach_action), methods=['POST'])
+# committees
+comm_view, comm_action = admin_crud(COMMITTEES_FILE, UPLOAD_DIRS['committees'], 'committee_admin.html')
+app.add_url_rule('/admin/committees', 'committee_admin', admin_required(comm_view), methods=['GET'])
+app.add_url_rule('/admin/committees', 'committee_admin_post', admin_required(comm_action), methods=['POST'])
 # Students
 stud_view, stud_action = admin_crud(STUDENTS_FILE, UPLOAD_DIRS['students'], 'student_admin.html')
 app.add_url_rule('/admin/students', 'student_admin', admin_required(stud_view), methods=['GET'])
 app.add_url_rule('/admin/students', 'student_admin_post', admin_required(stud_action), methods=['POST'])
 
 if __name__ == '__main__':
-    import os
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+    app.run(debug=True)
+    # import os
+    # port = int(os.environ.get('PORT', 5000))
+    # app.run(host='0.0.0.0', port=port)
 
 
