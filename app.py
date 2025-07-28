@@ -68,6 +68,9 @@ def admin_required(view):
 def contact():
     return render_template('contact.html')
 
+@app.route('/ping')
+def ping():
+    return 'pong', 200
 
 @app.route('/results')
 def results():
