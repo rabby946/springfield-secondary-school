@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
-{% block title %}Students{% endblock %}
+{% block title %}Students : Palashbaria Secondary School{% endblock %}
 {% block content %}
 <h1>Our Students</h1>
-<div class="students-grid">
+<div class="teachers-grid">
   {% for student in student_items %}
-  <a href="{{ url_for('student_detail', idx=loop.index0) }}" class="glass-card student-card">
+  <a href="{{ url_for('student_detail', idx=loop.index0) }}" class="glass-card teacher-card">
     <img src="{{ url_for('static', filename='images/students/' + student.filename) }}" alt="{{ student.name }}">
     <h3>{{ student.title }}</h3>
   </a>

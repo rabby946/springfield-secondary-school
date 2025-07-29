@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
-{% block title %}{{ item.title }}{% endblock %}
+{% block title %}{{ item.title }} : Palashbaria Secondary School{% endblock %}
 {% block content %}
 <div class="detail-container">
-  <h2>{{ item.title }}</h2>
-  <p>{{ item.description }}</p>
+  <div style=" font-size: large; background-color: rgba(212, 231, 195, 0.872); test-align: center; padding: 10px; border-radius: 5px;">
+    <h2 >{{ item.title }}</h2>
+  </div>
+  <br>
+  <p style="font-size: large;">{{ item.description }}</p>
 
   <div class="image-grid">
     {% for img in item.images %}

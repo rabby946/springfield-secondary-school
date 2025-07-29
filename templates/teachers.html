@@ -1,13 +1,34 @@
 {% extends 'base.html' %}
-{% block title %}Teachers{% endblock %}
+{% block title %}Teachers : Palashbaria Secondary School{% endblock %}
+
 {% block content %}
-<h1>Our Teachers</h1>
-<div class="teachers-grid">
-  {% for teacher in teacher_items %}
-  <a href="{{ url_for('teacher_detail', idx=loop.index0) }}" class="glass-card teacher-card">
-    <img src="{{ url_for('static', filename='images/teachers/' + teacher.filename) }}" alt="{{ teacher.title }}">
-    <h3>{{ teacher.title }}</h3>
-  </a>
-  {% endfor %}
-</div>
+  <h1 class="teachers-heading">Our Teachers and Officials</h1>
+
+  {# first row: just 2 cards #}
+  <div class="teachers-grid two-col">
+    {% for teacher in teacher_items[:2] %}
+      <a href="{{ url_for('teacher_detail', idx=loop.index0) }}"
+         class="glass-card teacher-card">
+        <div class="teacher-image">
+          <img src="{{ url_for('static', filename='images/teachers/' + teacher.filename) }}"
+               alt="{{ teacher.title }}">
+        </div>
+        <h3 class="teacher-name">{{ teacher.title }}</h3>
+      </a>
+    {% endfor %}
+  </div>
+
+  {# remaining rows: 5 per row #}
+  <div class="teachers-grid five-col">
+    {% for teacher in teacher_items[2:] %}
+      <a href="{{ url_for('teacher_detail', idx=loop.index0 + 2) }}"
+         class="glass-card teacher-card">
+        <div class="teacher-image">
+          <img src="{{ url_for('static', filename='images/teachers/' + teacher.filename) }}"
+               alt="{{ teacher.title }}">
+        </div>
+        <h3 class="teacher-name">{{ teacher.title }}</h3>
+      </a>
+    {% endfor %}
+  </div>
 {% endblock %}

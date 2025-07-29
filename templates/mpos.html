@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
-{% block title %}mpos{% endblock %}
+{% block title %}Accreditation : Palashbaria Secondary School{% endblock %}
 {% block content %}
-<h1>Our mpos</h1>
+<h1> Accreditations </h1>
 <div class="teachers-grid">
   {% for mpo in mpo_items %}
   <a href="{{ url_for('mpo_detail', idx=loop.index0) }}" class="glass-card teacher-card">

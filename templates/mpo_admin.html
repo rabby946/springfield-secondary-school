@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
-{% block title %}Manage MPOs{% endblock %}
+{% block title %}Manage Accreditation  : Palashbaria Secondary School{% endblock %}
 {% block content %}
 <div class="admin-form">
-  <h2>Manage MPOs</h2>
+  <h2>Manage Accreditation </h2>
   <form method="post" enctype="multipart/form-data">
     <div class="form-group">
       <label>Password:</label>
@@ -22,9 +22,9 @@
     </div>
     <div class="form-actions">
       {% if last %}
-        <button type="submit" name="action" value="delete" class="btn btn-danger">Delete Last MPO</button>
+        <button type="submit" name="action" value="delete" class="btn btn-danger">Delete Last Accreditation </button>
       {% endif %}
-      <button type="submit" name="action" value="post" class="btn btn-primary">Add MPO</button>
+      <button type="submit" name="action" value="post" class="btn btn-primary">Add Accreditation </button>
     </div>
   </form>
 </div>

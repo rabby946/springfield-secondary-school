@@ -26,7 +26,7 @@ UPLOAD_DIRS = {
     'students': os.path.join(BASE_DIR, 'static', 'images', 'students'), 
     'results' : os.path.join(BASE_DIR, 'static', 'files', 'results')
 }
-ADMIN_PASSWORD = 's118044'
+ADMIN_PASSWORD = 'S118044'
 nonews = "No published news right now"
 Headline = {'news' : 'No published news right now'}
 # Ensure JSON files and upload directories exist
@@ -64,19 +64,22 @@ def admin_required(view):
     return wrapped
 
 # Public Routes
+@app.route('/ping')
+def ping():
+    return 'pong' 
+
+@app.route('/routine')
+def routine():
+    return render_template('routine.html')
+
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
-
-@app.route('/ping')
-def ping():
-    return 'pong', 200
 
 @app.route('/results')
 def results():
     items = sorted(load_json(RESULTS_FILE), key=lambda x: x['timestamp'], reverse=True)
     return render_template('results.html', results_items=items)
-
 
 @app.route('/')
 def home():
@@ -328,6 +331,7 @@ app.add_url_rule('/admin/students', 'student_admin', admin_required(stud_view), 
 app.add_url_rule('/admin/students', 'student_admin_post', admin_required(stud_action), methods=['POST'])
 
 if __name__ == '__main__':
+    # app.run(debug=True)
     import os
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)

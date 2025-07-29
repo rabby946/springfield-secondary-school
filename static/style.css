@@ -61,8 +61,9 @@ body {
 .site-footer {
   background: #222; color: #ddd;
   padding: 2rem 0; margin-top: auto;
+  text-align: center;
 }
-.footer-container { display: flex; gap: 2rem; flex-wrap: wrap; justify-content: space-between; max-width: 1100px; margin: 0 auto; }
+.footer-container { display: flex; gap: 2rem; flex-wrap: wrap; justify-content: space-between; max-width: 1100px; margin:  auto; }
 .footer-col { flex: 1; min-width: 200px; }
 .footer-col h4 { color: var(--accent); }
 .footer-col a { color: #fff; text-decoration: none; }
@@ -534,4 +535,142 @@ body { font-family: 'Segoe UI', Tahoma, sans-serif; color: #333; line-height: 1.
 }
 body {
   font-family: 'Noto Sans Bengali', sans-serif;
+}
+
+.main-body {
+  background: 
+    linear-gradient(to bottom, rgba(214, 218, 106, 0.452), rgba(79, 141, 126, 0.808)),
+    url("{{ url_for('static', filename='images/hero-bg.jpg') }}") 
+    no-repeat center center fixed;
+  background-size: cover;
+  color: var(--text);
+}
+
+/* two columns for the first row */
+.teachers-grid.two-col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+/* five columns for the rest */
+.teachers-grid.five-col {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+/* responsive for the five-col grid */
+@media (max-width: 1200px) {
+  .teachers-grid.five-col { grid-template-columns: repeat(4, 1fr); }
+}
+@media (max-width: 992px) {
+  .teachers-grid.five-col { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 768px) {
+  .teachers-grid.five-col { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 576px) {
+  .teachers-grid.five-col { grid-template-columns: 1fr; }
+}
+
+/* shared card styles */
+.teacher-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.teacher-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+.teacher-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+.teacher-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.teacher-name {
+  margin: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+}
+h1.teachers-heading {
+  margin-top: 1rem;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  color: #222;
+}
+@media (max-width: 576px) {
+  /* first row: single card per row on mobile */
+  .teachers-grid.two-col {
+    grid-template-columns: 1fr;
+  }
+}
+/* Routine page overrides */
+.routine-section {
+  margin: 1rem 0;
+}
+.routine-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--primary);
+}
+.routine-table-wrapper {
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+}
+.routine-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+.routine-table th,
+.routine-table td {
+  border: 1px solid #1c0505;
+  padding: 0.5rem;
+  text-align: center;
+}
+.routine-table th {
+  background: var(--secondary);
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+@media (max-width: 600px) {
+  .routine-table th,
+  .routine-table td {
+    padding: 0.3rem;
+    font-size: 0.85rem;
+  }
+}
+.print-btn {
+  display: inline-block;
+  margin: 2rem auto;
+  padding: 0.75rem 1.5rem;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 6px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.print-btn:hover {
+  background: var(--accent);
 }
