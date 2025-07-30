@@ -4,7 +4,7 @@
   --primary: #ff6b6b;
   --secondary: #4ecdc4;
   --accent: #ffe66d;
-  --bg: #f0f3bd;
+  --bg: #5d610c;
   --text: #333;
 }
 * { box-sizing: border-box; }
@@ -145,7 +145,7 @@ body {
   justify-content: center;
   align-items: center;
   padding: 2rem 1rem;
-  background: linear-gradient(135deg, rgba(34,193,195,0.2), rgba(253,187,45,0.2));
+  background: linear-gradient(135deg, rgba(151, 122, 255, 0.767), rgba(253, 45, 45, 0.685));
   margin: 2rem auto;
 }
 
@@ -232,7 +232,7 @@ body {
   display: inline-block;
   white-space: nowrap;
   padding-left: 100%;
-  animation: scroll-left 18s linear infinite;
+  animation: scroll-left 20s linear infinite; /* <- added 20s duration */
   font-size: 1.1rem;
   font-weight: 500;
   color: #fff;
@@ -298,7 +298,6 @@ img {
 }
 .home-hero {
   /* …other styles… */
-  background-image: url("/static/images/hero-bg.jpg");
   background-size: cover;
   background-position: center;
 }
@@ -328,6 +327,7 @@ img {
 .hero-content {
   position: relative;
   z-index: 2;
+  background: rgba(219, 114, 114, 0.199); /* semi-transparent white */
 }
 .grid-5 { display:flex; flex-wrap:wrap; gap:1rem; }
 .grid-5 .glass-card { flex:1 1 calc(20% - 1rem); }
@@ -472,18 +472,18 @@ img {
 body { font-family: 'Segoe UI', Tahoma, sans-serif; color: #333; line-height: 1.6; }
 
 /* Header */
-.site-header { position: fixed; top: 0; width: 100%; background: #1a5963; box-shadow: 0 2px 8px rgba(0,0,0,0.1); z-index: 1000; }
+.site-header { position: fixed; top: 5px; width: 100%; background: #ffd06c78; box-shadow: 0 6px 18px rgba(0,0,0,0.1); z-index: 1000; height: fit-content;}
 .header-container { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0.5rem 1rem; }
 .logo { display: flex; align-items: center; color: #fff; text-decoration: none; }
 .logo img { height: 40px; margin-right: 0.5rem; }
 .logo span { font-size: 1.25rem; font-weight: bold; }
 
 .main-nav ul { display: flex; gap: 1rem; list-style: none; }
-.main-nav a { color: #fff; text-decoration: none; padding: 0.5rem; border-radius: 4px; transition: background 0.3s; }
+.main-nav a { color: #450c0c; text-decoration: none; padding: 0.5rem; border-radius: 4px; transition: background 0.3s; }
 .main-nav a:hover,
-.main-nav .active { background: rgba(255,255,255,0.2); }
+.main-nav .active { background: rgba(255, 255, 255, 0.436); }
 
-.login-btn { background: #f4a261; color: #1a4f63; padding: 0.5rem 1rem; border-radius: 4px; text-decoration: none; font-weight: 600; transition: background 0.3s; }
+.login-btn { background: #f4a261; color: #09151a; padding: 0.5rem 1rem; border-radius: 4px; text-decoration: none; font-weight: 600; transition: background 0.3s; }
 .login-btn:hover { background: #e37b3c; }
 
 /* Welcome Section */
@@ -539,7 +539,7 @@ body {
 
 .main-body {
   background: 
-    linear-gradient(to bottom, rgba(214, 218, 106, 0.452), rgba(79, 141, 126, 0.808)),
+    linear-gradient(to bottom, rgba(255, 57, 57, 0.452), rgba(51, 58, 255, 0.808)),
     url("{{ url_for('static', filename='images/hero-bg.jpg') }}") 
     no-repeat center center fixed;
   background-size: cover;
