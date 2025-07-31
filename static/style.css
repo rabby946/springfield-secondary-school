@@ -539,7 +539,7 @@ body {
 
 .main-body {
   background: 
-    linear-gradient(to bottom, rgba(255, 57, 57, 0.452), rgba(51, 58, 255, 0.808)),
+    linear-gradient(to bottom, rgba(228, 97, 97, 0.457), rgba(70, 75, 229, 0.507)),
     url("{{ url_for('static', filename='images/hero-bg.jpg') }}") 
     no-repeat center center fixed;
   background-size: cover;
@@ -673,4 +673,155 @@ h1.teachers-heading {
 }
 .print-btn:hover {
   background: var(--accent);
+}
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Hero Section */
+.home-hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  background: url("../images/hero-bg.jpg") no-repeat center center/cover;
+  text-align: center;
+  padding: 20px;
+}
+
+.hero-content {
+  max-width: 800px;
+  margin: auto;
+  padding: 10px;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  margin-top: 15px;
+}
+
+.btn {
+  font-size: 1.1rem;
+  padding: 12px 24px;
+  border-radius: 8px;
+}
+
+/* Hot News Section */
+.hot-news {
+  background: #e561619d , #74efc677;
+  padding: 10px;
+  font-size: 1rem;
+  overflow: hidden;
+}
+
+.scroll-container {
+  white-space: nowrap;
+  overflow-x: auto;
+}
+
+.scroll-text {
+  display: inline-block;
+  animation: scroll-left 15s linear infinite;
+}
+
+@keyframes scroll-left {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* About Section */
+.glass-card {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.page-heading {
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 1.8rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .btn {
+    font-size: 1rem;
+    padding: 10px 18px;
+  }
+
+  .glass-card {
+    padding: 15px;
+  }
+
+  .page-heading {
+    font-size: 1.5rem;
+  }
+    .hot-news {
+    font-size: 0.9rem;
+    padding: 6px 8px;
+  }
+
+  .scroll-container {
+    max-width: 100%;
+  }
+
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 1.4rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .btn {
+    font-size: 0.9rem;
+    padding: 8px 14px;
+  }
+  .hot-news {
+    font-size: 0.8rem;
+  }
+
+  .scroll-text {
+    animation-duration: 18s; /* even slower for readability */
+  }.hot-news {
+    font-size: 0.8rem;
+  }
+
+  .scroll-text {
+    animation-duration: 18s; /* even slower for readability */
+  }
+
+    .hot-news {
+    font-size: 0.5rem;
+    padding: 0px 5px;
+  }
+
+  .scroll-container {
+    max-width: 100%;
+  }
+  .hot-news {
+    font-size: 0.8rem;
+    max-width: 90%;
+  }
 }
