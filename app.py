@@ -224,13 +224,16 @@ def admin_crud(json_file, upload_dir=None, template_name=None):
 
         # Post new
         if act == 'post':
-            
+            # if don't upload file like photo or pdf, redirect to same page
+            if not request.files.get('file') and not request.files.get('photo') and json_file != NEWS_FILE:
+                flash('No file uploaded.', 'error')
+                return redirect(request.path)
+            # if upload file, but no title or description, set default values   
             title = request.form.get('title', '').strip()
             desc = request.form.get('description', '').strip()
             if not title or not desc:
-                flash('All fields are required.', 'error')
-                return redirect(request.path)
-
+                title = "Untitled"
+                desc = "No description"
             new_item = {'timestamp': datetime.utcnow().isoformat(), 'title': title, 'description': desc}
             if upload_dir and 'photo' in request.files:
                 file = request.files['photo']
