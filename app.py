@@ -232,8 +232,8 @@ def admin_crud(json_file, upload_dir=None, template_name=None):
             title = request.form.get('title', '').strip()
             desc = request.form.get('description', '').strip()
             if not title or not desc:
-                title = "Untitled"
-                desc = "No description"
+                flash('Title and description are required.', 'error')
+                return redirect(request.path)
             new_item = {'timestamp': datetime.utcnow().isoformat(), 'title': title, 'description': desc}
             if upload_dir and 'photo' in request.files:
                 file = request.files['photo']
