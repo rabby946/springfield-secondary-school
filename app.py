@@ -28,7 +28,7 @@ UPLOAD_DIRS = {
     'results' : os.path.join(BASE_DIR, 'static', 'files', 'results'),
     'routine' : os.path.join(BASE_DIR, 'static', 'files', 'routine')
 }
-ADMIN_PASSWORD = 'S118044'
+ADMIN_PASSWORD = 'bongram99'
 nonews = "No published news right now"
 Headline = {'news' : 'No published news right now'}
 # Ensure JSON files and upload directories exist
