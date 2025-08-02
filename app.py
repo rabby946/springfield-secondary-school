@@ -215,7 +215,7 @@ def admin_crud(json_file, upload_dir=None, template_name=None):
         
         # DELETE
         if act == 'delete':
-            if not items or sl <= 0 or sl > len(items):
+            if not items or sl <= 0 or sl > len(items) or not sl:
                 flash('Position value doesn\'t exist.❌', 'error')
                 return redirect(request.path)
             items.pop(sl - 1)

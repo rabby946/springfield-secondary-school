@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Manage Results : Palashbaria Secondary School{% endblock %}
+{% block title %}Manage Results : Bongram Secondary School{% endblock %}
 {% block content %}
 
 <div class="admin-container">
@@ -21,7 +21,7 @@
     </div>
     <div class="form-group">
       <label>Position:</label>
-      <input type="number" name="sl" placeholder="Enter position where you want to add/delete"> 
+      <input type="number" name="sl" placeholder="Enter position where you want to add/delete" required> 
     </div>
     <div class="form-group">
       <label>PDF File:</label>
@@ -30,7 +30,7 @@
     <div class="form-actions">
       {% if last %}
         <button type="submit" name="action" value="delete" class="btn btn-danger">
-          Delete Last Result
+          Delete 
         </button>
       {% endif %}
       <button type="submit" name="action" value="post" class="btn btn-primary">
@@ -52,6 +52,7 @@
          target="_blank" class="btn btn-secondary mt-2">
         📄 Download / View PDF
       </a>
+      <h3 style="color: black; text-align: center;">Position : {{ loop.index }}</h3>
     </div>
   {% else %}
     <p>No result sheets published yet.</p>
