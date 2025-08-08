@@ -2,7 +2,7 @@
 {% block title %}News : Bonogram Secondary School{% endblock %}
 {% block content %}
   <h1>All News</h1>
-    <div class="news-grid glass-card" style="background-color: rgba(200, 249, 225, 0.712);">
+    <div class="news-grid glass-card" style="background-color: rgba(236, 236, 236, 0.712);">
       {% for news in news_items %}
           <a href="{{ url_for('news_detail', idx=loop.index0) }}">
 
