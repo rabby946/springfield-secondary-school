@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+{% block title %}Photo Gallery{% endblock %}
+
+{% block content %}
+<style>
+    /* Scoped styles for the new Professional Gallery page */
+    :root {
+        --gallery-bg: #f8f9fa;
+        --gallery-text-dark: #212529;
+        --gallery-text-light: #ffffff;
+        --gallery-primary: #0d6efd; /* A professional blue */
+        --gallery-font: 'Poppins', sans-serif;
+    }
+
+    .gallery-container-pro {
+        font-family: var(--gallery-font);
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 2rem;
+    }
+
+    .gallery-header {
+        text-align: center;
+        margin-bottom: 3.5rem;
+    }
+    .gallery-header__title {
+        font-size: 2.8rem;
+        font-weight: 600;
+        color: var(--gallery-text-dark);
+        position: relative;
+        display: inline-block;
+        padding-bottom: 0.75rem;
+    }
+    .gallery-header__title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(90deg, #0d6efd, #6f42c1);
+        border-radius: 2px;
+    }
+    .gallery-header__subtitle {
+        font-size: 1.1rem;
+        color: #6c757d;
+        margin-top: 0.5rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* 1. Professional Grid Layout (3-4 items per row on web) */
+    .gallery-grid-pro {
+        display: grid;
+        /* Start with 1 column for mobile */
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    /* 2 columns for tablets */
+    @media (min-width: 768px) {
+        .gallery-grid-pro {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    /* 3 columns for desktops */
+    @media (min-width: 1024px) {
+        .gallery-grid-pro {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+
+    .gallery-card-pro {
+        display: block;
+        text-decoration: none;
+        border-radius: 16px;
+        overflow: hidden;
+        position: relative;
+        aspect-ratio: 4 / 3; /* Maintain a consistent shape */
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transform: perspective(1000px); /* Enable 3D transforms */
+        /* Animation setup */
+        opacity: 0;
+        transform: translateY(30px) perspective(1000px);
+    }
+    .gallery-card-pro.is-visible {
+        opacity: 1;
+        transform: translateY(0) perspective(1000px);
+    }
+    .gallery-card-pro:hover {
+        transform: translateY(-10px) perspective(1000px) rotateX(5deg) rotateY(-3deg);
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .gallery-card-pro__image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+    }
+
+    /* 2. Glassmorphism Overlay */
+    .gallery-card-pro__overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(10, 20, 40, 0.9) 0%, rgba(10, 20, 40, 0) 70%);
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+
+    .gallery-card-pro__title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--gallery-text-light);
+        margin: 0 0 0.5rem 0;
+    }
+    .gallery-card-pro__meta {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.8);
+    }
+    
+    /* 3. "View Gallery" Button for Clearer Link Indication */
+    .gallery-card-pro__button {
+        position: absolute;
+        bottom: 1.5rem;
+        right: 1.5rem;
+        background-color: var(--gallery-primary);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 50px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        text-decoration: none;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.4s ease;
+    }
+    .gallery-card-pro:hover .gallery-card-pro__button {
+        opacity: 1;
+        transform: translateY(0);
+    }
+</style>
+
+<div class="gallery-container-pro">
+    <header class="gallery-header">
+        <h2 class="gallery-header__title">Our Gallery</h2>
+        <p class="gallery-header__subtitle">Explore moments and memories from our school's events and activities.</p>
+    </header>
+
+    <main>
+        {% if items %}
+        <div class="gallery-grid-pro">
+            {% for item in items %}
+            <a href="{{ url_for('public.gallery_detail', id=item.id) }}" class="gallery-card-pro" style="animation-delay: {{ loop.index0 * 0.07 }}s;">
+                <img src="{{ item.images.split(',')[0] }}" alt="{{ item.title }}" class="gallery-card-pro__image">
+                <div class="gallery-card-pro__overlay">
+                    <div>
+                        <h3 class="gallery-card-pro__title">{{ item.title }}</h3>
+                        <div class="gallery-card-pro__meta">
+                            <i class="fas fa-images"></i>
+                            <span>{{ item.images.split(',')|length }} Image(s)</span>
+                        </div>
+                    </div>
+                    <div class="gallery-card-pro__button">
+                        View Gallery <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+            <div class="alert alert-info text-center">There are no gallery items to display at the moment. Please check back later!</div>
+        {% endif %}
+    </main>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Scroll Reveal Animation for the cards
+    const animatedCards = document.querySelectorAll('.gallery-card-pro');
+    if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        animatedCards.forEach(card => observer.observe(card));
+    } else {
+        // Fallback for older browsers
+        animatedCards.forEach(card => card.classList.add('is-visible'));
+    }
+});
+</script>
+{% endblock %}

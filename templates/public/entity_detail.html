@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% block title %}{{ item.name }}{% endblock %}
+
+{% block content %}
+<style>
+    /* A completely new, unique "Digital Magazine" design */
+    :root {
+        --page-bg: #F9FAFB; /* Off-white for a softer, premium feel */
+        --text-dark: #111827;
+        --text-light: #6B7280;
+        --text-accent: #0d6efd;
+        --border-color: #E5E7EB;
+        --font-heading: 'Playfair Display', serif;
+        --font-body: 'Poppins', sans-serif;
+    }
+
+    .profile-page-wrapper {
+        background-color: var(--page-bg);
+        font-family: var(--font-body);
+        color: var(--text-light);
+        padding: 4rem 2rem;
+        min-height: 100vh;
+        animation: fadeIn 0.8s ease-out forwards;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .profile-container-magazine {
+        max-width: 1000px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr;
+        align-items: center;
+        gap: 3rem;
+    }
+    @media (min-width: 992px) {
+        .profile-container-magazine {
+            grid-template-columns: 2fr 3fr; /* Asymmetric layout */
+        }
+    }
+
+    /* --- Image Section --- */
+    .profile-image-magazine {
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 20px 40px -10px rgba(0,0,0,0.2);
+        display: block; /* Ensures it's treated as a block for layout */
+    }
+    .profile-image-magazine img {
+        width: 100%;
+        height: auto;
+        display: block;
+        transition: transform 0.4s ease;
+    }
+    .profile-image-magazine:hover img {
+        transform: scale(1.05);
+    }
+    
+    /* --- Details Section --- */
+    .profile-details-magazine {
+        padding: 1rem 0;
+    }
+    .profile-name-magazine {
+        font-family: var(--font-heading);
+        font-size: 3.5rem;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin: 0 0 0.5rem 0;
+        line-height: 1.1;
+    }
+    .profile-position-magazine {
+        font-size: 1.25rem;
+        font-weight: 500;
+        color: var(--text-accent);
+        margin: 0 0 2rem 0;
+    }
+    .profile-description-magazine {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        margin: 0 0 2.5rem 0;
+        border-left: 3px solid var(--border-color);
+        padding-left: 1.5rem;
+    }
+    .back-button-magazine {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1rem;
+        font-weight: 500;
+        color: var(--text-dark);
+        background-color: #fff;
+        border: 1px solid var(--border-color);
+        text-decoration: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+    }
+    .back-button-magazine:hover {
+        background-color: var(--text-dark);
+        color: #fff;
+        border-color: var(--text-dark);
+        transform: translateY(-2px);
+    }
+</style>
+
+<div class="profile-page-wrapper">
+    <div class="profile-container-magazine">
+
+        <a href="{{ item.image_url or url_for('static', filename='images/default-avatar.png') }}"
+           data-fancybox="profile"
+           data-caption="{{ item.name }}"
+           class="profile-image-magazine">
+            <img src="{{ item.image_url or url_for('static', filename='images/default-avatar.png') }}" alt="{{ item.name }}">
+        </a>
+
+        <div class="profile-details-magazine">
+            <h1 class="profile-name-magazine">{{ item.name }}</h1>
+            <p class="profile-position-magazine">{{ item.position }}</p>
+            <p class="profile-description-magazine">{{ description }}</p>
+            <a href="{{ url_for(endpoint) }}" class="back-button-magazine">
+                <i class="fas fa-arrow-left"></i>
+                <span>Go Back</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Initialize Fancybox
+    document.addEventListener('DOMContentLoaded', () => {
+        Fancybox.bind("[data-fancybox]", {
+            // Your custom options can go here
+            Thumbs: false,
+            Toolbar: {
+                display: {
+                    left: [],
+                    middle: [],
+                    right: ["close"],
+                },
+            },
+        });
+    });
+</script>
+{% endblock %}

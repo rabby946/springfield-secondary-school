@@ -1,0 +1,255 @@
+{% extends "base.html" %}
+{% block title %}Routine{% endblock %}
+
+{% block content %}
+<style>
+    /* Scoped styles for the NEW stylish routine page design */
+    :root {
+        --routine-primary: #3b82f6; /* A modern, vibrant blue */
+        --routine-text-dark: #e5e7eb; /* Light text for dark cards */
+        --routine-text-light: #9ca3af;
+        --routine-font: 'Poppins', sans-serif;
+    }
+
+    .routine-page-container {
+        font-family: var(--routine-font);
+        max-width: 900px;
+        margin: 2rem auto;
+        padding: 2rem;
+    }
+
+    .routine-header {
+        text-align: center;
+        margin-bottom: 3.5rem;
+    }
+    .routine-header h2 {
+        font-size: 2.8rem;
+        font-weight: 600;
+        /* Using a text color from your refined style.css */
+        color: #1F2937; 
+        position: relative;
+        display: inline-block;
+        padding-bottom: 0.75rem;
+    }
+    .routine-header h2::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60%;
+        height: 4px;
+        background: linear-gradient(90deg, #3b82f6, #9333ea);
+        border-radius: 2px;
+    }
+
+    .routine-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        gap: 1.5rem;
+    }
+
+    /* The "Glassmorphism" Card */
+    .result-card-glass {
+        background: rgba(22, 27, 34, 0.5); /* Semi-transparent dark background */
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        transition: all 0.4s ease;
+        position: relative;
+        overflow: hidden; /* Important for the hover glow */
+    }
+
+    /* The "Wow" Hover Effect */
+    .result-card-glass::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(59, 130, 246, 0.2), transparent 40%);
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        z-index: 1;
+    }
+    .result-card-glass:hover::before {
+        opacity: 1;
+    }
+    .result-card-glass:hover {
+        border-color: rgba(59, 130, 246, 0.5);
+        transform: translateY(-5px);
+    }
+    
+    .result-card-glass > * {
+        z-index: 2; /* Ensure content is above the glow effect */
+    }
+
+    .result-card-glass__icon {
+        font-size: 2.5rem;
+        color: #e5e7eb;
+    }
+
+    .result-card-glass__info {
+        flex-grow: 1;
+    }
+    .result-card-glass__title {
+        font-size: 1.2rem;
+        font-weight: 500;
+        color: var(--routine-text-dark);
+        margin: 0 0 0.25rem 0;
+    }
+    .result-card-glass__date {
+        font-size: 0.85rem;
+        color: var(--routine-text-light);
+    }
+    
+    .result-card-glass__actions {
+        display: flex;
+        gap: 0.75rem;
+    }
+    
+    .btn-result-glass {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+        text-decoration: none;
+        padding: 8px 16px;
+        border-radius: 50px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #e5e7eb;
+        background-color: rgba(255, 255, 255, 0.05);
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    .btn-result-glass:hover {
+        background-color: var(--routine-primary);
+        border-color: var(--routine-primary);
+        color: #fff;
+    }
+    .btn-result-glass.is-downloading {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: var(--routine-text-light);
+        cursor: not-allowed;
+    }
+
+    .no-routine-alert {
+        background-color: #fff3cd;
+        border: 1px solid #ffeeba;
+        color: #856404;
+        padding: 1.5rem;
+        border-radius: 8px;
+        text-align: center;
+        font-size: 1.1rem;
+    }
+</style>
+
+<div class="routine-page-container">
+    <div class="routine-header">
+        <h2>Routine</h2>
+    </div>
+
+    {% if items %}
+        <ul class="routine-list">
+            {% for result in items %}
+            <li class="result-card-glass">
+                <div class="result-card-glass__icon">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <div class="result-card-glass__info">
+                    <h5 class="result-card-glass__title">{{ result.title }}</h5>
+                    <p class="result-card-glass__date">
+                        Published: {{ result.timestamp.strftime('%B %d, %Y') }}
+                    </p>
+                </div>
+                <div class="result-card-glass__actions">
+                    {% if result.file_url %}
+                        <a href="{{ result.file_url }}" target="_blank" class="btn-result-glass">
+                            <i class="fas fa-eye"></i> View
+                        </a>
+                        <button class="btn-result-glass" 
+                                data-url="{{ result.file_url }}"
+                                data-filename="{{ result.title }}.pdf">
+                            <i class="fas fa-download"></i>
+                            <span>Download</span>
+                        </button>
+                    {% else %}
+                        <span class="text-danger">No file available</span>
+                    {% endif %}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="no-routine-alert">
+            <i class="fas fa-info-circle"></i> No routine have been published yet. Please check back later.
+        </div>
+    {% endif %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // --- Card Hover Glow Effect ---
+    document.querySelectorAll('.result-card-glass').forEach(card => {
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        });
+    });
+    
+    // --- Reliable File Download Script ---
+    document.querySelectorAll('.btn-result-glass[data-url]').forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            
+            const fileUrl = this.dataset.url;
+            const fileName = this.dataset.filename;
+            const buttonText = this.querySelector('span');
+            
+            if (this.classList.contains('is-downloading')) return;
+
+            this.classList.add('is-downloading');
+            if (buttonText) buttonText.textContent = 'Downloading...';
+
+            fetch(fileUrl)
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.blob();
+                })
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = fileName;
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+
+                    this.classList.remove('is-downloading');
+                    if (buttonText) buttonText.textContent = 'Download';
+                })
+                .catch(error => {
+                    console.error('Download failed:', error);
+                    alert('Could not download the file. Please try again.');
+                    this.classList.remove('is-downloading');
+                    if (buttonText) buttonText.textContent = 'Download';
+                });
+        });
+    });
+});
+</script>
+{% endblock %}
