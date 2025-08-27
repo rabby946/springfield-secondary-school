@@ -1,63 +1,740 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %} : Bonogram Secondary School{% endblock %}</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
+<title>{% block title %}Bongram Secondary School{% endblock %}</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali&display=swap" rel="stylesheet">
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+<style>
+  /* ==========================================================================
+   New Universal Drawer Header (Refined and Working)
+   ========================================================================== */
 
+:root {
+    --pss-header-height: 80px;
+    --pss-primary-accent: #007BFF;
+    --pss-text-dark: #23292e;
+    --pss-text-light: #ffffff;
+    --pss-font-bengali: 'Noto Sans Bengali', sans-serif;
+    --pss-font-english: 'Poppins', sans-serif;
+}
+
+body.pss-drawer-open { overflow: hidden; }
+
+.pss-nav-header {
+    height: var(--pss-header-height);
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 1050; /* Needs to be higher than most elements */
+    background: linear-gradient(90deg,  rgba(223, 232, 170, 0.57)  0%, rgba(239, 247, 248, 0.859) 50%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.pss-nav-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+.pss-nav-logo { display: flex; align-items: center; gap: 0px; text-decoration: none; }
+.pss-nav-logo:hover { text-decoration: none; }
+.pss-nav-logo__img { height: 50px; }
+.pss-nav-logo__text { font-family: var(--pss-font-bengali); font-size: 2.0rem; font-weight: 600; color: var(--pss-text-dark); }
+
+.pss-nav-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); z-index: 1999;
+    opacity: 0; visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+.pss-nav-overlay.is-visible { opacity: 1; visibility: visible; }
+
+.pss-nav-menu {
+    position: fixed; top: 0; right: -320px;
+    width: 320px; max-width: 90%;
+    height: 100%;
+    background: linear-gradient(90deg,rgb(232, 231, 220)  0%, rgb(237, 210, 210) 50%);
+    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.424);
+    transition: right 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: 2000;
+    overflow-y: auto;
+}
+.pss-nav-menu.is-open { right: 0; }
+
+.pss-nav-menu__close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: #220404;
+    background: none;
+    border: none;
+    cursor: pointer;
+    line-height: 1;
+    padding: 5px;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+.pss-nav-menu__close:hover { color: #000; transform: rotate(90deg); }
+
+.pss-nav-menu__list {
+    list-style: none; margin: 0; padding: 0;
+    padding-top: 80px; /* Make space for close button */
+}
+.pss-nav-menu__link {
+    display: block; width: 100%;
+    font-family: var(--pss-font-english); font-size: 1.2rem; font-weight: 500;
+    color: var(--pss-text-dark); text-decoration: none;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid #41030310;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+.pss-nav-menu__link:hover { background-color: #f1f3f5; color: var(--pss-primary-accent); text-decoration: none; }
+.pss-nav-menu__link.active { background-color: var(--pss-primary-accent); color: var(--pss-text-light); }
+
+.pss-nav-hamburger {
+    display: block; padding: 10px; cursor: pointer;
+    background-color: transparent; border: none;
+}
+.pss-nav-hamburger__bar {
+    display: block; width: 28px; height: 3px;
+    margin: 6px 0; background-color: var(--pss-text-dark);
+    border-radius: 3px;
+}
+</style>
 </head>
 <body class="main-body">
-<header class="site-header">
-  <div class="header-container">
-    <nav class="main-nav">
-      <ul>
-        <li><a href="{{ url_for('home') }}"      class="{% if request.endpoint=='home' %}active{% endif %}">Home</a></li>
-        <li><a href="{{ url_for('news') }}"      class="{% if request.endpoint=='news' %}active{% endif %}">News</a></li>
-        <li><a href="{{ url_for('teachers') }}"  class="{% if request.endpoint=='teachers' %}active{% endif %}">Teachers</a></li>
-        <li><a href="{{ url_for('committees') }}"  class="{% if request.endpoint=='committees' %}active{% endif %}">Committees</a></li>
-        <li><a href="{{ url_for('students') }}"  class="{% if request.endpoint=='students' %}active{% endif %}">Students</a></li>
-        <li><a href="{{ url_for('routine') }}" class="{%if request.endpoint=='routine' %}active{% endif %}">Routine</a></li>
-        <li><a href="{{ url_for('results') }}"   class="{% if request.endpoint=='results' %}active{% endif %}">Results</a></li>
-        <li><a href="{{ url_for('gallery') }}"   class="{% if request.endpoint=='gallery' %}active{% endif %}">Gallery</a></li>
-        <li><a href="{{ url_for('mpos') }}"   class="{% if request.endpoint=='mpos' %}active{% endif %}">Accreditations</a></li>
-        <li><a href="{{ url_for('contact') }}"   class="{% if request.endpoint=='contact' %}active{% endif %}">Contact</a></li>
-        <li><a href="{{ url_for('login') }}"     class="{% if request.endpoint == 'login' %}active{% endif %}">Login</a></li>
-      </ul>
-    </nav>
-  </div>
+  
 </header>
+ <header class="pss-nav-header">
+        <div class="pss-nav-container">
+            <a href="{{ url_for('public.home') }}" class="pss-nav-logo">
+                <!-- <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="pss-nav-logo__img"> -->
+                <span class="pss-nav-logo__text">বনগ্রাম কি ম স মাধ্যমিক বিদ্যালয়</span>
+            </a>
+            <button class="pss-nav-hamburger" id="pss-unique-hamburger" aria-label="Open navigation menu">
+                <span class="pss-nav-hamburger__bar"></span>
+                <span class="pss-nav-hamburger__bar"></span>
+                <span class="pss-nav-hamburger__bar"></span>
+            </button>
+        </div>
+    </header>
+<nav class="pss-nav-menu" id="pss-unique-nav-menu">
+        <button class="pss-nav-menu__close" id="pss-unique-close-button" aria-label="Close navigation menu">&times;</button>
+        <ul class="pss-nav-menu__list">
+            <li><a href="{{ url_for('public.home') }}" class="pss-nav-menu__link {% if request.endpoint=='public.home' %}active{% endif %}">Home</a></li>
+            <li><a href="{{ url_for('public.news') }}" class="pss-nav-menu__link {% if request.endpoint=='public.news' %}active{% endif %}">News</a></li>
+            <li><a href="{{ url_for('public.teachers') }}" class="pss-nav-menu__link {% if request.endpoint=='public.teachers' %}active{% endif %}">Teachers</a></li>
+            <li><a href="{{ url_for('public.committees') }}" class="pss-nav-menu__link {% if request.endpoint=='public.committees' %}active{% endif %}">Committees</a></li>
+            <li><a href="{{ url_for('public.students') }}" class="pss-nav-menu__link {% if request.endpoint=='public.students' %}active{% endif %}">Students</a></li>
+            <li><a href="{{ url_for('public.routine') }}" class="pss-nav-menu__link {% if request.endpoint=='public.routine' %}active{% endif %}">Routine</a></li>
+            <li><a href="{{ url_for('public.results') }}" class="pss-nav-menu__link {% if request.endpoint=='public.results' %}active{% endif %}">Results</a></li>
+            <li><a href="{{ url_for('public.gallery') }}" class="pss-nav-menu__link {% if request.endpoint=='public.gallery' %}active{% endif %}">Gallery</a></li>
+            <li><a href="{{ url_for('public.mpos') }}" class="pss-nav-menu__link {% if request.endpoint=='public.mpos' %}active{% endif %}">Accreditations</a></li>
+            <li><a href="{{ url_for('public.contact') }}" class="pss-nav-menu__link {% if request.endpoint=='public.contact' %}active{% endif %}">Contact</a></li>
+            <li><a href="{{ url_for('admin.dashboard') }}" class="pss-nav-menu__link {% if request.endpoint=='admin.dashboard' %}active{% endif %}">Dashboard</a></li>
+        </ul>
+    </nav>
 
-<p>.</p>
-<p>.</p>
-<p>.</p>
-  <main class="container">
-    <div></div>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% for category, msg in messages %}
-        {% if category == 'error' %}
-          <div class="glass-card message-card" style="color: red;">{{ msg }}</div>
-        {% else %}
-          <div class="glass-card message-card" style="color: rgb(4, 116, 4);">{{ msg }}</div>
-        {% endif %}
-      {% endfor %}
-    {% endwith %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, msg in messages %}
+        {% set is_error = category == 'error' %}
+        <div class="toast-notification" data-is-error="{{ is_error|lower }}">
+            <div class="toast-notification__icon">
+                <i class="fas {{ 'fa-times-circle' if is_error else 'fa-check-circle' }}"></i>
+            </div>
+            <div class="toast-notification__content">
+                <p class="toast-notification__title">{{ 'Error' if is_error else 'Success' }}</p>
+                <p class="toast-notification__message">{{ msg }}</p>
+            </div>
+            <button class="toast-notification__close">&times;</button>
+            <div class="toast-notification__progress"></div>
+        </div>
+    {% endfor %}
+{% endwith %}
+
+<style>
+    /* New styles for the Toast Notification */
+    .toast-notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        max-width: 350px;
+        width: 90%;
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        display: flex;
+        align-items: flex-start;
+        padding: 1rem;
+        z-index: 9999;
+        font-family: 'Poppins', sans-serif;
+        border-left: 5px solid;
+        animation: toast-slide-in 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        overflow: hidden;
+    }
+
+    .toast-notification[data-is-error="true"] {
+        border-left-color: #dc3545; /* Red for error */
+    }
+
+    .toast-notification[data-is-error="false"] {
+        border-left-color: #28a745; /* Green for success */
+    }
+
+    .toast-notification__icon {
+        font-size: 1.5rem;
+        margin-right: 1rem;
+        line-height: 1;
+    }
+    
+    .toast-notification[data-is-error="true"] .toast-notification__icon {
+        color: #dc3545;
+    }
+
+    .toast-notification[data-is-error="false"] .toast-notification__icon {
+        color: #28a745;
+    }
+
+    .toast-notification__content {
+        flex-grow: 1;
+    }
+    .toast-notification__title {
+        font-size: 1rem;
+        font-weight: 600;
+        margin: 0 0 0.25rem 0;
+        color: #212529;
+    }
+    .toast-notification__message {
+        font-size: 0.9rem;
+        color: #6c757d;
+        margin: 0;
+    }
+
+    .toast-notification__close {
+        background: none;
+        border: none;
+        color: #adb5bd;
+        font-size: 1.5rem;
+        font-weight: 300;
+        cursor: pointer;
+        padding: 0 0 0 1rem;
+        line-height: 1;
+        opacity: 0.7;
+        transition: opacity 0.3s ease;
+    }
+    .toast-notification__close:hover {
+        opacity: 1;
+    }
+
+    .toast-notification__progress {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 4px;
+        width: 100%;
+        animation: toast-progress 5s linear forwards;
+    }
+
+    .toast-notification[data-is-error="true"] .toast-notification__progress {
+        background-color: #dc3545;
+    }
+
+    .toast-notification[data-is-error="false"] .toast-notification__progress {
+        background-color: #28a745;
+    }
+    
+    @keyframes toast-slide-in {
+        from { transform: translateX(110%); }
+        to { transform: translateX(0); }
+    }
+    
+    @keyframes toast-slide-out {
+        from { transform: translateX(0); }
+        to { transform: translateX(110%); }
+    }
+    
+    @keyframes toast-progress {
+        from { width: 100%; }
+        to { width: 0%; }
+    }
+</style>
+
+
+<style>
+    @keyframes flash-fade-in {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes flash-fade-out {
+        from { opacity: 1; transform: translateY(0); }
+        to { opacity: 0; transform: translateY(-20px); }
+    }
+</style>
+
+
     {% block content %}{% endblock %}
-  </main>
+</main>
 
-  <footer class="site-footer">
-    <div class="footer-container">
-      <div class="footer-col">
-        <h4> About</h4><p> Bonogram Kishan majdur sammilito Secondary School is committed to academic excellence and character building.</p>
-      </div>
-      <div class="footer-col">
-        <h4> Contact</h4><p> Email: 118032school@gmail.com <br> Phone: 01309-118032</p>
-      </div>
-      <div class="footer-col">
-        <h4> Follow Us</h4><p><a href="www.facebook.com" target="_blank"> Facebook</a><br><a href="twitter.com"> Twitter</a><br><a href="instagram.com"> Instagram</a></p>
-      </div>
+<style>
+    @keyframes flash-fade-in {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes flash-fade-out {
+        from { opacity: 1; transform: translateY(0); }
+        to { opacity: 0; transform: translateY(-20px); }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const flashMessages = document.querySelectorAll('.flash-message-container');
+        
+        flashMessages.forEach(message => {
+            setTimeout(() => {
+                if (message) {
+                    message.remove();
+                }
+            }, 5000);
+        });
+    });
+</script>
+
+
+<script>
+  function toggleDrawer() {
+    const nav = document.getElementById('nav-drawer');
+    nav.classList.toggle('open');
+  }
+</script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-col">
+      <h4>About</h4>
+      <p>Bongram Secondary School is committed to academic excellence and character building.</p>
     </div>
-  </footer>
-  <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <p>Email: bongramkmssecondaryschool@gmail.com<br>Phone: 01309-118032</p>
+    </div>
+    <div class="footer-col">
+      <h4>Follow Us</h4>
+      <p><a href="https://www.facebook.com" target="_blank">Facebook</a><br><a href="https://twitter.com">Twitter</a><br><a href="https://instagram.com">Instagram</a></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const chatIcon = document.getElementById('chatbot-icon');
+  const chatPopup = document.getElementById('chat-popup');
+  const chatClose = document.getElementById('chat-close');
+  const sendBtn = document.getElementById('send-btn');
+  const chatInput = document.getElementById('chat-input');
+  const chatMessages = document.getElementById('chat-messages');
+  const typingIndicator = document.getElementById('typing-indicator');
+
+  // Toggle chat popup
+  chatIcon.addEventListener('click', () => {
+    chatPopup.style.display = chatPopup.style.display === 'flex' ? 'none' : 'flex';
+    if (chatPopup.style.display === 'flex') {
+      chatInput.focus();
+    }
+  });
+
+  // Close chat popup
+  chatClose.addEventListener('click', () => {
+    chatPopup.style.display = 'none';
+  });
+
+  // Send message on button click
+  sendBtn.addEventListener('click', sendMessage);
+
+  // Send message on Enter key press
+  chatInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+  async function sendMessage() {
+    const userMsg = chatInput.value.trim();
+    if (!userMsg || sendBtn.disabled) return;
+
+    // Add user message
+    addMessage('user', userMsg);
+    chatInput.value = '';
+    
+    // Disable input while processing
+    sendBtn.disabled = true;
+    sendBtn.textContent = 'Sending...';
+    chatInput.disabled = true;
+    
+    // Show typing indicator
+    typingIndicator.style.display = 'block';
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    try {
+      const res = await fetch('/ai-chat', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ message: userMsg }),
+      });
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      const data = await res.json();
+      
+      // Hide typing indicator
+      typingIndicator.style.display = 'none';
+      
+      // Add AI response
+      addMessage('bot', data.answer || data.response || 'Sorry, I couldn\'t understand that.');
+      
+    } catch (err) {
+      console.error('Chat error:', err);
+      typingIndicator.style.display = 'none';
+      addMessage('bot', 'Sorry, I\'m having trouble connecting right now. Please try again later.');
+    } finally {
+      // Re-enable input
+      sendBtn.disabled = false;
+      sendBtn.textContent = 'Send';
+      chatInput.disabled = false;
+      chatInput.focus();
+    }
+  }
+
+  function addMessage(sender, message) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${sender}`;
+    
+    const messageContent = document.createElement('div');
+    messageContent.className = 'message-content';
+    messageContent.textContent = message;
+    
+    messageDiv.appendChild(messageContent);
+    chatMessages.appendChild(messageDiv);
+    
+    // Scroll to bottom
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  // Auto-focus input when popup opens
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+        if (chatPopup.style.display === 'flex') {
+          setTimeout(() => chatInput.focus(), 100);
+        }
+      }
+    });
+  });
+
+  observer.observe(chatPopup, {
+    attributes: true,
+    attributeFilter: ['style']
+  });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // --- Staggered Animation for Cards ---
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.animationDelay = `${entry.target.dataset.index * 0.08}s`;
+        entry.target.classList.add('in-view');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.content-card').forEach((card, index) => {
+    card.dataset.index = index;
+    observer.observe(card);
+  });
+
+  // --- Live Filter for Teachers/Students ---
+  const filterInput = document.getElementById('filter-input');
+  if (filterInput) {
+    const cards = document.querySelectorAll('.person-card');
+    const noResultsMessage = document.getElementById('no-results-message');
+
+    filterInput.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const name = card.querySelector('h3').textContent.toLowerCase();
+        if (name.includes(searchTerm)) {
+          card.style.display = 'block';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      
+      noResultsMessage.style.display = visibleCount === 0 ? 'block' : 'none';
+    });
+  }
+});
+// --- Contact Page Interactivity ---
+const contactForm = document.getElementById('contact-form');
+
+if (contactForm) {
+  const formResult = document.getElementById('form-result');
+
+  // --- Copy to Clipboard ---
+  document.querySelectorAll('.copy-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      const textToCopy = button.dataset.copy;
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        const originalIcon = button.innerHTML;
+        button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        setTimeout(() => {
+          button.innerHTML = originalIcon;
+        }, 2000);
+      }).catch(err => {
+        console.error('Failed to copy: ', err);
+      });
+    });
+  });
+
+  // --- Form Validation & Submission ---
+  contactForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    let isValid = true;
+    formResult.style.display = 'none';
+
+    // Simple validation
+    ['name', 'email', 'subject', 'message'].forEach(id => {
+      const field = document.getElementById(id);
+      const errorEl = document.getElementById(`${id}-error`);
+      if (!field.value.trim()) {
+        errorEl.style.display = 'block';
+        isValid = false;
+      } else {
+        errorEl.style.display = 'none';
+      }
+    });
+
+    // Email format validation
+    const emailField = document.getElementById('email');
+    const emailError = document.getElementById('email-error');
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (emailField.value.trim() && !emailRegex.test(emailField.value)) {
+      emailError.textContent = 'Please enter a valid email address.';
+      emailError.style.display = 'block';
+      isValid = false;
+    }
+
+    if (!isValid) return;
+
+    // --- AJAX Submission ---
+    const submitBtn = document.getElementById('submit-btn');
+    const originalBtnText = submitBtn.innerHTML;
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = 'Sending...';
+
+    const formData = new FormData(contactForm);
+    
+    // NOTE: You need to create a backend endpoint (e.g., in Flask) at '/submit-contact' to receive this data.
+    fetch('{{ url_for("public.contact") }}', {
+    method: 'POST',
+    body: formData,
+    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+})
+
+    .then(response => response.json())
+    .then(data => {
+      formResult.style.display = 'block';
+      if (data.success) {
+        formResult.className = 'success';
+        formResult.textContent = 'Thank you! Your message has been sent successfully.';
+        contactForm.reset();
+      } else {
+        formResult.className = 'error';
+        formResult.textContent = 'Sorry, there was an error. Please try again later.';
+      }
+    })
+    .catch(error => {
+      formResult.style.display = 'block';
+      formResult.className = 'error';
+      formResult.textContent = 'An unexpected error occurred. Please check your connection.';
+      console.error('Error:', error);
+    })
+    .finally(() => {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalBtnText;
+    });
+  });
+}
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // --- 1. Live Search Functionality ---
+    const searchInput = document.getElementById('committeeSearch');
+    if (searchInput) {
+        const committeeCards = document.querySelectorAll('.ts-card');
+        const noResultsMessage = document.getElementById('noResultsMessage');
+
+        searchInput.addEventListener('keyup', (event) => {
+            const searchTerm = event.target.value.toLowerCase();
+            let visibleCards = 0;
+
+            committeeCards.forEach(card => {
+                const name = card.dataset.name.toLowerCase();
+                const position = card.dataset.position.toLowerCase();
+
+                if (name.includes(searchTerm) || position.includes(searchTerm)) {
+                    card.style.display = 'block';
+                    visibleCards++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            noResultsMessage.style.display = visibleCards === 0 ? 'block' : 'none';
+        });
+    }
+
+    // --- 2. Scroll Reveal Animation ---
+    const animatedCards = document.querySelectorAll('.ts-card');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.1 // Trigger when 10% of the card is visible
+    });
+
+    animatedCards.forEach(card => {
+        observer.observe(card);
+    });
+});
+// --- Script for the Universal Header Drawer ---
+document.addEventListener('DOMContentLoaded', () => {
+
+    const hamburgerButton = document.getElementById('pss-unique-hamburger');
+    const navMenu = document.getElementById('pss-unique-nav-menu');
+    const body = document.body;
+
+    // --- Create the page overlay element if it doesn't exist ---
+    let overlay = document.querySelector('.pss-nav-overlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.className = 'pss-nav-overlay';
+        body.appendChild(overlay);
+    }
+
+    // Function to open the menu
+    const openMenu = () => {
+        hamburgerButton.classList.add('is-active');
+        navMenu.classList.add('is-open');
+        overlay.classList.add('is-visible');
+        body.classList.add('pss-drawer-open'); // Prevents body scrolling
+    };
+
+    // Function to close the menu
+    const closeMenu = () => {
+        hamburgerButton.classList.remove('is-active');
+        navMenu.classList.remove('is-open');
+        overlay.classList.remove('is-visible');
+        body.classList.remove('pss-drawer-open');
+    };
+
+    // Event listener for the hamburger button
+    if (hamburgerButton && navMenu) {
+        hamburgerButton.addEventListener('click', () => {
+            // If menu is already open, close it. Otherwise, open it.
+            if (navMenu.classList.contains('is-open')) {
+                closeMenu();
+            } else {
+                openMenu();
+            }
+        });
+
+        // Event listener for the overlay (to close the menu when clicking outside)
+        overlay.addEventListener('click', closeMenu);
+    }
+});
+</script>
+<style>
+  /* This small style block is for the JS animation to work */
+  .content-card { opacity: 0; }
+  .content-card.in-view { opacity: 2; transform: translateY(1); }
+</style>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.toast-notification').forEach(toast => {
+        
+        // Function to dismiss the toast
+        const dismissToast = () => {
+            toast.style.animation = 'toast-slide-out 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards';
+            // Remove the element from the page after the animation completes
+            setTimeout(() => {
+                toast.remove();
+            }, 500);
+        };
+
+        // Automatically dismiss after 5 seconds
+        const autoDismissTimer = setTimeout(dismissToast, 5000);
+
+        // Allow user to dismiss by clicking the close button
+        const closeButton = toast.querySelector('.toast-notification__close');
+        if (closeButton) {
+            closeButton.addEventListener('click', () => {
+                clearTimeout(autoDismissTimer); // Stop the automatic dismissal
+                dismissToast();
+            });
+        }
+    });
+});
+    </script>
 </body>
 </html>
