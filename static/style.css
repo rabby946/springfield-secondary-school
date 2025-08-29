@@ -1421,7 +1421,7 @@ body {
 
 /* This class provides the final background override seen on the site */
 .main-body {
-  background: linear-gradient(90deg, rgba(153, 195, 232, 0.592) 0%, rgb(252, 254, 255) 50%);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.648) 0%, rgba(160, 190, 255, 0.464) 50%);
 }
 
 img,

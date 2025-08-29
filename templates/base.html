@@ -47,10 +47,10 @@ body.pss-drawer-open { overflow: hidden; }
     position: sticky;
     top: 0;
     z-index: 1050; /* Needs to be higher than most elements */
-    background: linear-gradient(90deg,  rgba(223, 232, 170, 0.57)  0%, rgba(239, 247, 248, 0.859) 50%);
+    background:  linear-gradient(360deg,rgb(188, 207, 255)  0%,  rgb(255, 255, 255) 50%);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 2px solid rgba(94, 45, 45, 0.489);
 }
 
 .pss-nav-container {
@@ -79,10 +79,10 @@ body.pss-drawer-open { overflow: hidden; }
 
 .pss-nav-menu {
     position: fixed; top: 0; right: -320px;
-    width: 320px; max-width: 90%;
+    width: 320px; max-width: 35%;
     height: 100%;
-    background: linear-gradient(90deg,rgb(232, 231, 220)  0%, rgb(237, 210, 210) 50%);
-    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.424);
+    background: linear-gradient(90deg,rgb(255, 255, 255)  0%, rgb(188, 207, 255) 50%);
+    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.583);
     transition: right 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     z-index: 2000;
     overflow-y: auto;
@@ -185,7 +185,7 @@ body.pss-drawer-open { overflow: hidden; }
     /* New styles for the Toast Notification */
     .toast-notification {
         position: fixed;
-        top: 20px;
+        top: 100px;
         right: 20px;
         max-width: 350px;
         width: 90%;
