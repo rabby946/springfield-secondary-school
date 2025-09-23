@@ -1,233 +1,273 @@
 {% extends 'base.html' %}
 {% block title %}News : Bongram Secondary School{% endblock %}
-{% block content %}
+
+{% block head %}
 <style>
-    /* --- PSS NEWS HUB DESIGN --- */
-
-    /* 1. Theme & Variables */
     :root {
-        --font-sans: 'Inter', sans-serif;
-        --color-accent: #22d3ee; /* Cyan */
-        --color-text-dark: #F0F6FC;
-        --color-text-light: #A1A7B1;
-        --card-bg: rgba(22, 27, 34, 0.6);
-        --card-border: rgba(56, 139, 253, 0.2);
-        --accent-glow: rgba(34, 211, 238, 0.3);
+        --vista-bg-color-1: #d1f4f9;
+        --vista-bg-color-2: #d1f6f4;
+        --vista-glow-color-1: #c5d1f1;
+        --vista-glow-color-2: #eafffe;
+        --vista-glow-color-3: #f3f9ea;
+        --vista-text-primary: #f0f0f0;
+        --vista-text-secondary: #c0c0c0;
+        --vista-border-color: rgba(255, 255, 255, 0.695);
+        --vista-card-background: rgb(219, 186, 233);
+        --vista-font-family: 'Poppins', sans-serif;
+        --vista-animation-duration: 12s;
+        }
+    body{
+        background-color: var(--vista-bg-color-1);
+    background-image:
+        radial-gradient(at 20% 25%, var(--vista-glow-color-1) 0px, transparent 50%),
+        radial-gradient(at 75% 30%, var(--vista-glow-color-2) 0px, transparent 50%),
+        radial-gradient(at 50% 80%, var(--vista-glow-color-3) 0px, transparent 50%),
+        radial-gradient(at 80% 95%, var(--vista-glow-color-1) 0px, transparent 50%);
     }
-
-    /* 2. Main Container & Header */
-    .news-hub__container {
-        max-width: 1100px;
-        margin: 0 auto;
-        padding: 2rem 1rem;
-        font-family: var(--font-sans);
-    }
-    .news-hub__header {
-        font-size: 3rem;
-        font-weight: 700;
-        color: #fff;
-        text-align: center;
-        margin-bottom: 3rem;
-        padding-bottom: 1rem;
-        border-bottom: 1px solid var(--card-border);
+    main {
         position: relative;
-        text-shadow: 0 0 10px var(--accent-glow);
+        z-index: 2;
     }
-    .news-hub__header::after {
-        content: '';
-        position: absolute;
-        bottom: -1px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 100px;
-        height: 2px;
-        background-color: var(--color-accent);
+    .page-section {
+        background-color: transparent !important;
     }
-
-    /* 3. The News Grid */
-    .news-hub__grid {
-        display: grid;
-        grid-template-columns: 1fr; /* Default to single column */
-        gap: 2rem;
-    }
-    @media (min-width: 768px) {
-        /* On larger screens, create a responsive multi-column grid */
-        .news-hub__grid {
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        }
-    }
-
-    /* 4. Base News Card Style */
-    .news-hub__card {
-        display: flex;
-        flex-direction: column;
-        text-decoration: none;
-        background: var(--card-bg);
-        backdrop-filter: blur(12px);
-        border: 1px solid var(--card-border);
-        border-radius: 1rem;
-        overflow: hidden;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-        /* Animation setup */
-        opacity: 0;
-        transform: translateY(30px);
-        animation: fadeIn-up 0.5s ease-out forwards;
-    }
-    .news-hub__card:hover {
-        transform: translateY(-5px);
-        border-color: var(--color-accent);
-        box-shadow: 0 8px 25px var(--accent-glow);
-    }
-    @keyframes fadeIn-up { to { opacity: 1; transform: translateY(0); } }
-
-    /* 5. Featured Card (First item in the grid) */
-    .news-hub__card--featured {
-        grid-column: 1 / -1; /* Span full width of the grid */
-    }
-    @media (min-width: 768px) {
-        .news-hub__card--featured {
-            flex-direction: row; /* Side-by-side layout on desktop */
-        }
-    }
-
-    /* 6. Card Content Styling */
-    .news-hub__image-wrapper {
-        flex-shrink: 0;
-        background-color: #161b22; /* Placeholder color if image is missing */
-        overflow: hidden;
-    }
-    .news-hub__card--featured .news-hub__image-wrapper {
-        height: 300px;
-    }
-    @media (min-width: 768px) {
-        .news-hub__card--featured .news-hub__image-wrapper {
-            width: 45%;
-            height: auto;
-        }
-    }
-    .news-hub__card--standard .news-hub__image-wrapper {
-        height: 200px;
-    }
-    .news-hub__image {
+    
+    /* ====================================================================== */
+    /* START: The Fix for Unclickable Buttons                                 */
+    /* ====================================================================== */
+    #particles-js {
+        position: fixed;
         width: 100%;
         height: 100%;
-        object-fit: cover;
-        transition: transform 0.4s ease;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        pointer-events: none; /* This is the critical fix. It makes the background ignore mouse clicks. */
     }
-    .news-hub__card:hover .news-hub__image {
-        transform: scale(1.05);
+    /* ====================================================================== */
+    /* END: The Fix                                                           */
+    /* ====================================================================== */
+
+    .news-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+    }
+    .page-header {
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+    .page-header h1 {
+        font-family: var(--font-bengali);
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--text-dark);
+        position: relative;
+        display: inline-block;
+        padding-bottom: 0.75rem;
+    }
+    .page-header h1::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background-color: #0dcaf0;
+        border-radius: 2px;
     }
 
-    .news-hub__content {
-        padding: 1.5rem;
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
+    .timeline {
+        position: relative;
+        padding: 2rem 0;
     }
-    .news-hub__title {
+    .timeline::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 10px;
+        height: 100%;
+        width: 3px;
+        background: linear-gradient(to bottom, #e0f2fe, #0ea5e9, #e0f2fe);
+        border-radius: 2px;
+        animation: pulse 4s ease-in-out infinite;
+        z-index: -1;
+    }
+    @keyframes pulse {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 1; }
+    }
+    @media (min-width: 768px) {
+        .timeline::before { left: 50%; transform: translateX(-50%); }
+    }
+
+    .timeline-item {
+        position: relative;
+        margin-bottom: 3rem;
+        width: 100%;
+        padding-left: 40px;
+        opacity: 0;
+    }
+    .timeline-item:last-child { margin-bottom: 0; }
+
+    .timeline-node {
+        position: absolute;
+        top: 5px;
+        left: 11.5px;
+        transform: translateX(-50%);
+        width: 18px;
+        height: 18px;
+        background-color: var(--bg-light);
+        border: 3px solid #0dcaf0;
+        border-radius: 50%;
+        z-index: 1;
+        box-shadow: 0 0 15px #0dcaf0;
+    }
+
+    @media (min-width: 768px) {
+        .timeline-item { width: 50%; padding-left: 0; padding-right: 40px; }
+        .timeline-item:nth-child(even) { margin-left: 50%; padding-left: 40px; padding-right: 0; }
+        .timeline-node { left: 50%; }
+    }
+    
+    .news-card {
+        background: linear-gradient(135deg, var(--bg-white) 0%, #c4fbfe 100%);
+        border-top: 4px solid #a3e6f3;
+        border-radius: var(--radius);
+        padding: 1.5rem;
+        box-shadow: var(--shadow);
+        background: var(--vista-bg-color-3);
+
+    }
+    .news-card__title a {
+        font-family: var(--font-bengali);
         font-size: 1.5rem;
         font-weight: 600;
-        color: var(--color-text-dark);
-        margin: 0 0 0.5rem 0;
-    }
-    .news-hub__card--featured .news-hub__title {
-        font-size: 1.8rem;
-    }
-    .news-hub__meta {
-        font-size: 0.9rem;
-        color: var(--color-text-light);
-        margin-bottom: 1rem;
-    }
-    .news-hub__excerpt {
-        font-size: 1rem;
-        color: var(--color-text-light);
-        line-height: 1.6;
-        flex-grow: 1;
-        margin-bottom: 1.5rem;
-    }
-    .news-hub__read-more {
-        font-weight: 600;
-        color: var(--color-accent);
+        color: var(--text-dark);
         text-decoration: none;
-        align-self: flex-start;
+        transition: color 0.3s ease;
     }
-    .news-hub__read-more:hover {
-        text-decoration: underline;
+    .news-card__title a:hover { color: var(--brand-primary); }
+    .news-card__meta { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; }
+    .news-card__content { color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem; }
+
+    .details-button {
+        display: inline-block;
+        font-weight: 500;
+        color: #fff;
+        background-color: var(--brand-primary);
+        text-decoration: none;
+        padding: 0.5rem 1.25rem;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        cursor: pointer;
     }
-    
-    /* 7. "No Items" Message */
-    .news-hub__empty-message {
-        text-align: center;
-        padding: 3rem;
-        font-size: 1.2rem;
-        color: var(--color-text-light);
-        background: var(--card-bg);
-        border: 1px solid var(--card-border);
-        border-radius: 1rem;
+    .details-button:hover {
+        background-color: var(--brand-secondary);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+    }
+
+    .timeline-item.animate-on-scroll {
+        opacity: 0;
+        transform: translateY(50px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .timeline-item.animate-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
+    @media (min-width: 768px) {
+        .timeline-item.animate-on-scroll { transform: translateX(-30px) translateY(50px); }
+        .timeline-item:nth-child(even).animate-on-scroll { transform: translateX(30px) translateY(50px); }
+        .timeline-item.animate-on-scroll.is-visible { transform: translateX(0) translateY(0); }
     }
 </style>
+{% endblock %}
 
-<div class="news-hub__container">
-    <h1 class="news-hub__header">All News</h1>
-    
-    <div class="news-hub__grid">
-    {% for news in news_items %}
-        {% if loop.first %}
-        <a href="{{ url_for('public.news_detail', id=news.id) }}" 
-           class="news-hub__card news-hub__card--featured"
-           style="animation-delay: 0s;">
-            
-            
-            <div class="news-hub__content">
-                <h3 class="news-hub__title">{{ news.title }}</h3>
-                <p class="news-hub__meta"><i class="fas fa-calendar-alt"></i> Published: {{ news.timestamp }}</p>
-                <p class="news-hub__excerpt">{{ news.excerpt or 'Click to read the full story.' }}</p>
-                <span class="news-hub__read-more">Read More &rarr;</span>
-            </div>
-        </a>
-        {% else %}
-        <a href="{{ url_for('public.news_detail', id=news.id) }}" 
-           class="news-hub__card news-hub__card--standard"
-           style="animation-delay: {{ (loop.index0 - 1) * 0.1 }}s;">
+{% block content %}
+<div id="particles-js"></div>
 
-          
-            <div class="news-hub__content">
-                <h3 class="news-hub__title">{{ news.title }}</h3>
-                <p class="news-hub__meta"><i class="fas fa-calendar-alt"></i> {{ news.timestamp }}</p>
-                <p class="news-hub__excerpt">{{ news.excerpt or 'Click to read more.' }}</p>
-                <span class="news-hub__read-more">Read More &rarr;</span>
-            </div>
-        </a>
-        {% endif %}
-    {% else %}
-        <div class="news-hub__empty-message">
-            <p>No news has been published yet. Please check back later.</p>
-        </div>
-    {% endfor %}
+<div class="news-container">
+    <div class="page-header animate-on-scroll">
+        <h1>স্কুলের খবর ও নোটিশ</h1>
     </div>
-</div>
 
+    {% if news_items %}
+        <div class="timeline">
+            {% for news in news_items %}
+            <div class="timeline-item ">
+                <div class="timeline-node"></div>
+                <div class="news-card ">
+                    <h2 class="news-card__title">
+                        <a href="{{ url_for('public.news_detail', id=news.id) }}">{{ news.title }}</a>
+                    </h2>
+                    <p class="news-card__meta">
+                        <i class="fas fa-calendar-alt fa-fw me-2"></i>Published: {{ news.timestamp.strftime('%d %B %Y') }}
+                    </p>
+                    <div class="news-card__content">
+                        {{ (news.content or 'Click to read the full story.')|striptags|truncate(250) }}
+                    </div>
+                    <a href="{{ url_for('public.news_detail', id=news.id) }}" class="details-button">View Details <i class="fas fa-arrow-right ms-2"></i></a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="text-center p-5 content-card animate-on-scroll">
+            <h3>No News Published</h3>
+            <p class="text-muted">There are currently no news articles. Please check back later.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Scroll Reveal Animation for the cards
-    const animatedCards = document.querySelectorAll('.news-hub__card');
-    if ("IntersectionObserver" in window) {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animationDelay = entry.target.style.animationDelay || '0s';
-                    entry.target.classList.add('is-animated'); // A placeholder class
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
+    particlesJS('particles-js', {
+      "particles": {
+        "number": { "value": 35, "density": { "enable": true, "value_area": 800 } },
+        "color": { "value": "#0dcaf0" },
+        "shape": { "type": "circle" },
+        "opacity": { "value": 0.4, "random": true },
+        "size": { "value": 3, "random": true },
+        "line_linked": { "enable": true, "distance": 150, "color": "#0dcaf0", "opacity": 0.3, "width": 1 },
+        "move": { "enable": true, "speed": 2, "direction": "none", "out_mode": "out" }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        // Interactivity is disabled to ensure all content is clickable
+        "events": { "onhover": { "enable": false }, "onclick": { "enable": false } },
+        "modes": {}
+      },
+      "retina_detect": true
+    });
 
-        animatedCards.forEach(card => {
-            observer.observe(card);
+    // JavaScript-Powered "Wow" Scroll Animations
+    const animatedItems = document.querySelectorAll('.timeline-item');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                entry.target.style.transition = `opacity 0.6s ease-out ${index * 100}ms, transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) ${index * 100}ms`;
+                const isEven = Array.from(animatedItems).indexOf(entry.target) % 2 !== 0;
+                let initialTransform = 'translateX(-30px)';
+                if (window.innerWidth >= 768 && isEven) {
+                    initialTransform = 'translateX(30px)';
+                } else if (window.innerWidth < 768) {
+                    initialTransform = 'translateX(0)';
+                }
+                entry.target.style.transform = `${initialTransform} translateY(50px)`;
+                requestAnimationFrame(() => {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateX(0) translateY(0)';
+                });
+                observer.unobserve(entry.target);
+            }
         });
-    }
+    }, { threshold: 0.1 });
+    animatedItems.forEach(item => {
+        observer.observe(item);
+    });
 });
 </script>
-
 {% endblock %}

@@ -2,192 +2,196 @@
 {% block title %}Report Details : Bongram Secondary School{% endblock %}
 
 {% block content %}
-
 <style>
-    /* Import a clean, modern font */
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
-
-    body {
-        background: linear-gradient(90deg, rgba(203, 235, 160, 0.524) 0%, rgba(146, 210, 232, 0.53) 40%);
-        font-family: 'Poppins', sans-serif;
-        color: #333;
+    /* New, unique design for the Report Details page */
+    .report-page-container {
+        --report-bg: #f8fafc;
+        --report-card-bg: #ffffff;
+        --report-primary: #0d6efd;
+        --report-danger: #dc3545;
+        --report-border: #e2e8f0;
+        --report-text-dark: #1e293b;
+        --report-text-light: #64748b;
+        --report-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        
+        background-color: var(--report-bg);
+        /* Subtle geometric background pattern */
+        background-image: linear-gradient(135deg, #f1f5f9 25%, transparent 25%), 
+                          linear-gradient(225deg, #f1f5f9 25%, transparent 25%), 
+                          linear-gradient(45deg, #f1f5f9 25%, transparent 25%), 
+                          linear-gradient(315deg, #f1f5f9 25%, var(--report-bg) 25%);
+        background-position: 10px 0, 10px 0, 0 0, 0 0;
+        background-size: 20px 20px;
+        background-repeat: repeat;
+        
+        padding: 2rem 1rem;
+        min-height: 100vh;
     }
 
-    /* --- FIX: Card Position Adjusted to Top --- */
-    .page-container {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        /* Removed align-items: center and min-height to allow content to start at the top */
-        /* Added more padding at the top for nice spacing */
-        padding: 5rem 2rem; 
-    }
-
-    /* The main card with the frosted glass effect */
-    .report-card {
-        width: 100%;
-        max-width: 700px;
-        background: rgba(255, 255, 255, 0.65);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        padding: 2rem 2.5rem;
+    .report-dossier {
+        max-width: 800px;
+        margin: 2rem auto;
+        background-color: var(--report-card-bg);
+        border: 1px solid var(--report-border);
         border-radius: 1rem;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
-        animation: fadeIn 0.5s ease-out;
+        box-shadow: var(--report-shadow);
+        overflow: hidden;
+        /* Animation setup */
+        opacity: 0;
+        transform: translateY(30px);
+        animation: cardFadeInUp 0.6s 0.2s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
     }
-    
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes cardFadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-    /* Styling for the main heading */
-    .report-card h2 {
-        text-align: center;
-        margin-bottom: 2.5rem;
-        font-size: 1.75rem;
+    .dossier-header {
+        padding: 2rem 2.5rem;
+        border-bottom: 1px solid var(--report-border);
+        background-color: #fcfdff;
+    }
+    .dossier-title {
+        font-size: 1.8rem;
         font-weight: 600;
-        color: #111;
-        position: relative;
+        color: var(--report-text-dark);
+        margin: 0;
     }
-    
-    .report-card h2::after {
-        content: '';
-        position: absolute;
-        bottom: -10px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 50px;
-        height: 3px;
-        background: linear-gradient(90deg, #cbeba0, #92d2e8);
-        border-radius: 2px;
+    .dossier-timestamp {
+        font-size: 0.9rem;
+        color: var(--report-text-light);
+        margin-top: 0.5rem;
     }
 
-    /* A grid for neatly displaying the report details */
-    .details-grid {
+    .dossier-body {
+        padding: 2.5rem;
+    }
+    .sender-info {
         display: grid;
-        grid-template-columns: 100px 1fr;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+    }
+    @media (min-width: 768px) {
+        .sender-info { grid-template-columns: 1fr 1fr; }
+    }
+    .info-item {
+        display: flex;
+        align-items: center;
         gap: 1rem;
-        margin-bottom: 2rem;
+    }
+    .info-item .icon {
+        font-size: 1.25rem;
+        color: var(--report-primary);
+    }
+    .info-item strong {
+        display: block;
+        color: var(--report-text-light);
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+    .info-item span, .info-item a {
         font-size: 1rem;
+        font-weight: 500;
+        color: var(--report-text-dark);
+        text-decoration: none;
+    }
+    .info-item a:hover {
+        text-decoration: underline;
+        color: var(--report-primary);
     }
 
-    .detail-label {
-        font-weight: 600;
-        color: #555;
-    }
-
-    .detail-value {
-        color: #222;
-        word-break: break-word;
-    }
-    
     .message-block {
         margin-top: 1.5rem;
-        background: rgba(0,0,0,0.04);
-        padding: 1rem 1.5rem;
-        border-radius: 8px;
-        border-left: 4px solid #92d2e8;
     }
-    
-    .message-block .detail-label {
-        margin-bottom: 0.5rem;
-        display: block;
+    .message-block h3 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--report-text-dark);
+        margin-bottom: 1rem;
     }
-    
-    .message-block .detail-value {
-        line-height: 1.7;
+    .message-content {
+        background-color: var(--report-bg);
+        padding: 1.5rem;
+        border-radius: 0.75rem;
+        color: #334155;
+        line-height: 1.8;
+        white-space: pre-wrap; /* Preserves line breaks in the message */
     }
 
-    .btn-group {
-        margin-top: 2.5rem;
+    .dossier-actions {
+        padding: 1.5rem 2.5rem;
+        border-top: 1px solid var(--report-border);
+        background-color: #fcfdff;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-top: 1px solid rgba(0,0,0,0.1);
-        padding-top: 1.5rem;
     }
-
-    .btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.6rem 1.2rem;
-        border: 1px solid transparent;
-        border-radius: 8px;
-        font-size: 0.9rem;
-        font-weight: 500;
+    .btn-action {
         text-decoration: none;
-        cursor: pointer;
+        font-weight: 500;
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
         transition: all 0.3s ease;
     }
-
-    .btn-secondary {
-        color: #555;
-        background-color: transparent;
-        border-color: #ccc;
+    .btn--back {
+        background-color: #e9ecef;
+        color: var(--report-text-dark);
     }
-    .btn-secondary:hover {
-        background-color: #f0f0f0;
-        border-color: #bbb;
-        color: #222;
-    }
-
-    .btn-danger {
+    .btn--back:hover { background-color: #dee2e6; }
+    .btn--delete {
+        background-color: var(--report-danger);
         color: #fff;
-        background-color: #dc3545;
-        border-color: #dc3545;
+        border: none;
+        cursor: pointer;
     }
-    .btn-danger:hover {
+    .btn--delete:hover {
         background-color: #c82333;
-        border-color: #bd2130;
         transform: translateY(-2px);
-        box-shadow: 0 4px 10px rgba(220, 53, 69, 0.3);
+        box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
     }
 </style>
 
-<div class="page-container">
-    <div class="report-card">
-        <h2>Message Details</h2>
+<div class="report-page-container">
+    <div class="report-dossier">
+        <header class="dossier-header">
+            <h1 class="dossier-title">Report: {{ item.purpose }}</h1>
+            <p class="dossier-timestamp"><i class="far fa-clock me-2"></i>Received on {{ item.timestamp.strftime('%d %B %Y at %I:%M %p') }}</p>
+        </header>
 
-        <div class="details-grid">
-            <span class="detail-label">Name:</span>
-            <span class="detail-value">{{ item.name }}</span>
+        <div class="dossier-body">
+            <section class="sender-info">
+                <div class="info-item">
+                    <i class="fas fa-user icon"></i>
+                    <div>
+                        <strong>Sender Name</strong>
+                        <span>{{ item.name }}</span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-envelope icon"></i>
+                    <div>
+                        <strong>Sender Email</strong>
+                        <a href="mailto:{{ item.email }}">{{ item.email }}</a>
+                    </div>
+                </div>
+            </section>
 
-            <span class="detail-label">Email:</span>
-            <span class="detail-value">{{ item.email }}</span>
-
-            <span class="detail-label">Purpose:</span>
-            <span class="detail-value">{{ item.purpose }}</span>
+            <section class="message-block">
+                <h3>Message Content</h3>
+                <div class="message-content">
+                    {{ item.message }}
+                </div>
+            </section>
         </div>
 
-        <div class="message-block">
-            <span class="detail-label">Message:</span>
-            <p class="detail-value">{{ item.message }}</p>
-        </div>
-
-        <div class="btn-group">
-            <a href="{{ url_for('admin.reports') }}" class="btn btn-secondary">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
-                </svg>
-                Go Back
+        <footer class="dossier-actions">
+            <a href="{{ url_for('admin.reports') }}" class="btn-action btn--back">
+                <i class="fas fa-arrow-left me-2"></i> Back to Inbox
             </a>
-
-            <form action="{{ url_for('admin.delete_reports', id=item.id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to delete this report?');">
-                <input type="hidden" name="action" value="delete">
-                
-                <button type="submit" class="btn btn-danger">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                    </svg>
-                    Delete
+            <form action="{{ url_for('admin.delete_reports', id=item.id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this report permanently?');">
+                <button type="submit" class="btn-action btn--delete">
+                    <i class="fas fa-trash-alt me-2"></i> Delete Report
                 </button>
             </form>
-        </div>
+        </footer>
     </div>
 </div>
-
 {% endblock %}

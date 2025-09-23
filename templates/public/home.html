@@ -1,318 +1,301 @@
 {% extends 'base.html' %}
-{% block title %}Home : bongram Secondary School{% endblock %}
-{% block content %}
+{% block title %}Home : Bongram Secondary School{% endblock %}
 
-<!-- <div class="myMarquee" position="absolute" style="top: 2; left: 0; width: 100%; height: 50px; overflow: hidden;">
-  <div class="scroller">
-
-<div id="newsTicker"><p></p></div> -->
-<div class="onoffswitch3">
-    <input type="checkbox" name="onoffswitch3" class="onoffswitch3-checkbox" id="myonoffswitch3" checked>
-    <label class="onoffswitch3-label" for="myonoffswitch3">
-        <span class="onoffswitch3-inner">
-            <span class="onoffswitch3-active">
-                <marquee class="scroll-text" style="color: black;">{{text}}   <span class="glyphicon glyphicon-forward"></span>  {{text2}}</marquee>
-                <span class="onoffswitch3-switch">LATEST NEWS <span class="glyphicon glyphicon-remove"></span></span>
-            </span>
-            <span class="onoffswitch3-inactive"><span class="onoffswitch3-switch">SHOW LATEST NEWS</span></span>
-        </span>
-    </label>
-</div>
-<div class="container">
-    <div class="image-slider">
-        <div class="slider-container" id="sliderContainer">
-            <!-- Slide 1 -->
-             <div class="slide">
-                <img src="https://i.ibb.co.com/hR4ttsHL/Whats-App-Image-2025-07-31-at-11-12-44-AM.jpg" alt="School Building">
-                <div class="slide-caption">
-                    <h3>আমাদের বিদ্যালয় ভবন</h3>
-                    <p>বনগ্রাম কি, ম, স, মাধ্যমিক বিদ্যালয়ের সুন্দর ও আধুনিক ভবন</p>
-                </div>
-            </div>
-            <div class="slide">
-                <img src="https://i.ibb.co.com/9Mb7tHR/Whats-App-Image-2025-08-06-at-3-48-53-PM.jpg" alt="School Building">
-                <div class="slide-caption">
-                    <h3>সমাবেশ</h3>
-                    <p>বনগ্রাম কি, ম, স, মাধ্যমিক বিদ্যালয়ের সমাবেশ</p>
-                </div>
-            </div>
-             <div class="slide">
-                <img src="https://i.ibb.co.com/RGhxzr5V/Whats-App-Image-2025-08-29-at-8-18-41-PM.jpg" alt="School Building">
-                <div class="slide-caption">
-                    <h3>আমাদের মাল্টিমিডিয়া ক্লাসরুম</h3>
-                    <p>উচ্চ মানের আধুনিক মাল্টিমিডিয়া ক্লাসরুম, যেখানে শিক্ষার্থীরা প্রযুক্তির মাধ্যমে সহজে ও দ্রুত শেখার সুযোগ পায়।</p>
-                </div>
-            </div>
-            <div class="slide">
-                <img src="https://i.ibb.co.com/4ZPC5x0p/Whats-App-Image-2025-08-29-at-8-17-01-PM.jpg" alt="Screenshot-2025-08-26-00-21-32-906-com-google-android-apps-maps-2" border="0">
-                <div class="slide-caption">
-                    <h3>আমাদের ক্যাম্পাস</h3>
-                    <p>অরুণ বিদ্যালয় ক্যাম্পাসের সুন্দর এবং আধুনিক পরিবেশ, যেখানে শিক্ষার আলো জ্বলে উঠে প্রতিটি কোণে।</p>
-                </div>
-            </div>
-           
-            <!-- Add 3 more slides with your school images -->
-        </div>
-        
-        <!-- Navigation arrows -->
-        <button class="slider-nav prev" onclick="changeSlide(-1)">❮</button>
-        <button class="slider-nav next" onclick="changeSlide(1)">❯</button>
-        
-        <!-- Progress bar -->
-        <div class="progress-bar">
-            <div class="progress-fill" id="progressFill"></div>
-        </div>
-        
-        <!-- Navigation dots -->
-        <div class="slider-dots">
-            <span class="dot active" onclick="currentSlide(1)"></span>
-            <span class="dot" onclick="currentSlide(2)"></span>
-            <span class="dot" onclick="currentSlide(3)"></span>
-            <span class="dot" onclick="currentSlide(4)"></span>
-        </div>
-    </div>
-</div> 
-<!-- <div id="box"> </div>  -->
-<!-- About Section -->
+{% block head %}
 <style>
-    /* এই স্টাইলগুলো শুধুমাত্র "আমাদের সম্পর্কে" bölüm এর জন্য কাজ করবে */
-    .about-school-section {
-        font-family: 'Poppins', 'Noto Sans Bengali', sans-serif;
-        background-color: #ffffff;
-        border-radius: 16px;
-        padding: 2.5rem;
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-        border: 1px solid #e9ecef;
-        margin: 2rem auto;
-    }
-
-    .about-school-section .page-heading {
-        font-size: 2.2rem;
-        font-weight: 600;
-        color: #1a202c;
-        text-align: center;
-        margin-top: 0;
-        margin-bottom: 2rem;
-        border-bottom: 2px solid #007bff;
-        padding-bottom: 1rem;
-        display: inline-block;
-        left: 50%;
+    /* Page-specific styles for the new Home Page */
+    main {
+        padding: 0 !important; /* Allow hero and particle background to fill space */
         position: relative;
-        transform: translateX(-50%);
     }
-
-    .about-school-content {
-        position: relative;
-        color: #4a5568;
-        font-size: 1.1rem;
-        line-height: 1.8;
-        text-align: justify;
-        /* প্রাথমিকভাবে লেখাটি ছোট করে দেখানোর জন্য */
-        max-height: 220px; /* এখানে লেখার প্রাথমিক উচ্চতা নির্ধারণ করা হয়েছে */
-        overflow: hidden;
-        transition: max-height 0.7s cubic-bezier(0.23, 1, 0.32, 1);
-    }
-
-    /* লেখাটি যখন ছোট থাকবে, তখন শেষে একটি fade effect দেখানোর জন্য */
-    .about-school-content::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
+    
+    /* ====================================================================== */
+    /* START: The Fix for Hidden Content                                      */
+    /* ====================================================================== */
+    #particles-js {
+        position: fixed;
         width: 100%;
-        height: 100px;
-        background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #ffffff);
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 1; /* Sits in the background */
+        background-color: var(--bg-light);
+    }
+    .page-content-wrapper {
+        position: relative;
+        z-index: 2; /* Sits ON TOP of the particle background */
+        background-color: transparent; /* Allows particles to be seen through gaps */
+    }
+    /* ====================================================================== */
+    /* END: The Fix                                                           */
+    /* ====================================================================== */
+
+    .page-section {
+        padding: 4rem 1.5rem;
+    }
+
+    .hero-slider {
+        position: relative;
+        width: 100%;
+        height: 60vh;
+        min-height: 450px;
+        max-height: 700px;
+        overflow: hidden;
+        background-color: #e9ecef;
+    }
+    @media (min-width: 768px) {
+        .hero-slider { height: 75vh; }
+    }
+    .hero-slider-container {
+        display: flex;
+        height: 100%;
+        transition: transform 1s cubic-bezier(0.76, 0, 0.24, 1);
+    }
+    .hero-slide { min-width: 100%; height: 100%; position: relative; }
+    .hero-slide img {
+        width: 100%; height: 100%; object-fit: cover;
+        animation: kenBurns 20s infinite;
+    }
+    @keyframes kenBurns {
+        0%, 100% { transform: scale(1) rotate(0deg); }
+        50% { transform: scale(1.15) rotate(1deg); }
+    }
+    .hero-slide::after {
+        content: ''; position: absolute; inset: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 60%);
+    }
+    .hero-slide-caption {
+        position: absolute; bottom: 15%; left: 5%; right: 5%;
+        z-index: 2; color: #fff; max-width: 650px;
+        animation: fadeInUp 1s ease-out forwards; opacity: 0;
+    }
+    .hero-slide-caption h3 {
+        font-family: var(--font-bengali);
+        font-size: 1.8rem;
+        font-weight: 700;
+        text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    }
+    @media (min-width: 768px) {
+        .hero-slide-caption h3 { font-size: 2.5rem; }
+    }
+    .hero-slide-caption p { font-size: 1.1rem; opacity: 0.9; }
+    .slider-nav {
+        position: absolute; top: 50%; transform: translateY(-50%);
+        background-color: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2);
+        color: #fff; width: 45px; height: 45px;
+        border-radius: 50%; cursor: pointer; z-index: 3;
+        transition: all 0.3s ease;
+    }
+    .slider-nav:hover { background-color: rgba(0,0,0,0.5); }
+    .slider-nav.prev { left: 1rem; }
+    .slider-nav.next { right: 1rem; }
+
+    .news-ticker-bar {
+        background-color: #fff;
+        padding: 0.75rem;
+        border-bottom: 1px solid var(--border-color);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        display: flex; align-items: center; overflow: hidden;
+    }
+    .news-ticker-label {
+        font-weight: 700; color: var(--brand-primary);
+        padding: 0.5rem 1rem; background-color: #e7f1ff;
+        border-radius: 50px; white-space: nowrap;
+        margin-right: 1rem;
+    }
+    .news-ticker-content {
+        display: inline-block; white-space: nowrap;
+        animation: scroll-left 30s linear infinite;
+    }
+    .news-ticker-content a { color: var(--text-dark); text-decoration: none; margin-right: 3rem; font-weight: 500; }
+    .news-ticker-content a:hover { color: var(--brand-primary); }
+    @keyframes scroll-left {
+        0% { transform: translateX(100%); }
+        100% { transform: translateX(-100%); }
+    }
+
+    .quick-links-section { background-color: #fff; }
+    .page-heading {
+        font-family: var(--font-bengali);
+        font-size: 2.5rem; font-weight: 700;
+        margin-bottom: 3rem; text-align: center;
+    }
+    .quick-links-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+    .quick-link-card {
+        display: block;
+        padding: 2rem;
+        text-decoration: none;
+        color: var(--text-light);
+        border-radius: 1rem;
+        background: linear-gradient(135deg, #0dcaf0, #0d6efd);
+        box-shadow: 0 8px 25px rgba(13, 110, 253, 0.2);
+        transition: all 0.3s ease;
+    }
+    .quick-link-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 30px rgba(13, 110, 253, 0.3);
+    }
+    .quick-link-card i {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        display: block;
+    }
+    .quick-link-card h4 {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--text-light);
+    }
+
+    .about-content {
+        max-height: 220px; overflow: hidden;
+        transition: max-height 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+        position: relative;
+    }
+    .about-content.is-expanded { max-height: 2000px; }
+    .about-content::after {
+        content: ''; position: absolute; bottom: 0; left: 0;
+        width: 100%; height: 100px;
+        background: linear-gradient(to bottom, transparent, var(--bg-light));
         transition: opacity 0.5s ease;
     }
-
-    /* লেখাটি সম্পূর্ণ দেখা গেলে fade effect টি সরিয়ে ফেলার জন্য */
-    .about-school-content.is-expanded::after {
-        opacity: 0;
-    }
-
-    /* "সম্পূর্ণ পড়ুন" বাটনটির ডিজাইন */
-    .see-more-container {
-        text-align: center;
-        margin-top: 1.5rem;
-    }
-
-    .see-more-btn {
-        font-family: 'Poppins', sans-serif;
-        font-size: 1rem;
-        font-weight: 500;
-        color: #fff;
-        background-color: #007bff;
-        border: none;
-        border-radius: 50px;
-        padding: 12px 30px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
-    }
-
-    .see-more-btn:hover {
-        background-color: #0056b3;
-        transform: translateY(-3px);
-        box-shadow: 0 7px 20px rgba(0, 123, 255, 0.3);
-    }
+    .about-content.is-expanded::after { opacity: 0; }
 </style>
+{% endblock %}
 
-<div class="container">
-    <div class="about-school-section">
-        <h1 class="page-heading">আমাদের সম্পর্কে</h1>
+{% block content %}
+<div id="particles-js"></div>
 
-        <div class="about-school-content" id="about-content">
-            <p>
-                মহম্মদপুর উপজেলার প্রত্যন্ত অঞ্চল বনগ্রাম। এই পলাশ বাড়িয়া ইউনিয়নেই পাকিস্তান আমলের মিনিস্টার এম এ খালেক এবং মাগুরা-২ আসনে পরপর পাঁচবার নির্বাচিত সংসদ সদস্য বীর মুক্তিযোদ্ধা এ্যাড. আছাদুজ্জামানসহ অনেক খ্যাতিমান মানুষের জন্ম। তেমনি একজন খ্যাতিমান ব্যক্তি বীর মুক্তিযোদ্ধা আব্দুল কাইয়ুম মিয়া।তিনি জেলা আওয়ামী লীগের ভারপ্রাপ্ত সভাপতি হিসেবে দায়িত্ব পালনকালে ১৯৬৬ সালে পলাশ বাড়িয়া মাধ্যমিক বিদ্যালয়টি প্রতিষ্ঠিত করেন।সরেজমিনে বিদ্যালয়ে গিয়ে দেখা যায়, বিদ্যালয়ে রয়েছে প্রায় ৭শ শিক্ষার্থী। শিক্ষার্থীদের উদ্দেশ্যে এবং লেখাপড়ার মান উন্নয়নের লক্ষ্যে ভোকেশনাল শাখা, ব্যবসা শাখা, কৃষি বিষয়ক শিক্ষা ও কম্পিউটার শাখা খোলা হয়েছে। এছাড়াও রয়েছে- বঙ্গবন্ধু কর্ণার, সততা স্টোর, শহিদ মিনার, স্কাউট ও গার্লস গাইড। এর সবই সম্ভব হয়েছে প্রধান শিক্ষক ফরিদ আহম্মদ এর কারণে। জানা যায়- স্কুলটিতে সকল ধরণের জাতীয় দিবস পালনসহ জাতীয় প্রোগ্রামে অংশগ্রহন করে থাকে বিদ্যালয়টি। প্রতিষ্ঠান সুত্রে জানা যায়, বীর মুক্তিযোদ্ধা আব্দুল কাইয়ুম মিয়া এলাকার সাধারণ মানুষের কথা ভেবে এবং এলাকায় শিক্ষা বিস্তারের লক্ষ্য নিয়ে বনগ্রাম বাজারের পাশে ১৯৬৬ সালে গড়ে তোলেন একটি শিক্ষাপ্রতিষ্ঠান। যার নাম দেয়া হয় বনগ্রাম মাধ্যমিক বিদ্যালয়। এবং তিনিই প্রতিষ্ঠাতা প্রধান শিক্ষক হিসেবে বিদ্যালয়ের হাল ধরেন। দীর্ঘদিন তিনি এই দায়িত্ব পালন করেন। ১৯৬৬ সাল থেকে এ পর্যন্ত বিদ্যালয়টি এলাকায় শিক্ষা ক্ষেত্রে গুরত্বপূর্ন ভূমিকা পালন করে আসছে। এই বিদ্যালয়ের অনেক শিক্ষার্থী দেশের বিভিন্ন পর্যায়ের কর্মক্ষেত্রে নেতৃত্ব দিয়ে আসছেন। এই প্রতিষ্ঠান হতে সৃষ্টি হয়েছে অনেক প্রতিযশা- চিকিৎসক, প্রকৌশলী, প্রশাসক, রাজনীতিবীদ, আইনজীবি, ব্যবসায়ী- যারা দেশ-বিদেশে স্ব-মহিমায় সমুজ্জ্বল ছিলেন এবং বর্তমানে আছেন। পরপর পাঁচ থেকে সাত বছর ধরে বনগ্রাম মাধ্যমিক বিদ্যালয়টি সকল পাবলিক পরীক্ষায় অংশগ্রহন করে পাশের শতকরা হারে উপজেলায় শীর্ষস্থানে রয়েছে। শিক্ষার মান উন্নয়নে শীর্ষস্থানে আশার মূলে রয়েছে বর্তমান প্রধান শিক্ষক মোঃ ফরিদ আহম্মদ। প্রধান শিক্ষক হিসেবে বনগ্রাম মাধ্যমিক বিদ্যালয়ে ফরিদ আহম্মদ যোগদান করেন ২০১২ সালে। এরপর থেকে স্কুলটির লেখাপড়ার মান উন্নয়ন শুরু হয়। ২০১৬ সালে স্কুলটি জাতীয় শিক্ষা সপ্তাহে মাগুরা জেলা পর্যায়ে শ্রেষ্ঠ শিক্ষাপ্রতিষ্ঠান হিসেবে নির্বাচিত হয়। পরে মহম্মদপুর উপজেলা পর্যায়ে পরপর তিন বছর শ্রেষ্ঠ শিক্ষাপ্রতিষ্ঠান হিসেবে নির্বাচিত হয়েছে। প্রধান শিক্ষক ফরিদ আহম্মদ নিজেও একাধিকবার জেলা ও উপজেলা পর্যায়ে শ্রেষ্ঠ প্রতিষ্ঠান প্রধান হিসেবে নির্বাচিত হয়েছেন এবং শিক্ষা ক্ষেত্রে বিশেষ অবদান রাখায় দেশের বিভিন্ন সংগঠন থেকে সম্মাননা স্মারক ও সনদপত্র পেয়েছেন। এরপর ২০১৯ সালে সহকারী প্রধান শিক্ষক হিসেবে যোগদান করেন আরেক প্রতিভাবান শিক্ষককবি মোঃ শহিদুজ্জামান। কবি শহিদুজ্জামান শিক্ষা সপ্তাহ ২০২১ ও ২০২২শে শ্রেষ্ঠ শ্রেনি শিক্ষক নির্বাচিত হয়েছেন। প্রধান ও সহকারী প্রধান শিক্ষকসহ সকল শিক্ষকমন্ডলির প্রচেষ্টায় বনগ্রাম মাধ্যমিক বিদ্যালয়টি শীর্ষস্থানে রয়েছে। প্রধান শিক্ষক মোঃ ফরিদ আহম্মদ জানান, সকল শিক্ষক, কর্মচারী ও এলাকার সর্বস্তরের মানুষের সহযোগিতায় বনগ্রাম মাধ্যমিক বিদ্যালয়টি শীর্ষস্থানে রয়েছে। এই সাফল্য ধরে রাখা এবং গতিশীল রাখার জন্য আমরা বদ্ধপরিকর।
-            </p>
+<div class="page-content-wrapper">
+    <div class="hero-slider" id="hero-slider">
+        <div class="hero-slider-container" id="slider-container">
+            <div class="hero-slide"><img src="https://i.ibb.co.com/hR4ttsHL/Whats-App-Image-2025-07-31-at-11-12-44-AM.jpg" alt="School Building"><div class="hero-slide-caption"><h3>আমাদের বিদ্যালয় ভবন</h3><p>বনগ্রাম কি, ম, স, মাধ্যমিক বিদ্যালয়ের সুন্দর ও আধুনিক ভবন</p></div></div>
+            <div class="hero-slide"><img src="https://i.ibb.co/9Mb7tHR/Whats-App-Image-2025-08-06-at-3-48-53-PM.jpg" alt="School Assembly"><div class="hero-slide-caption"><h3>সমাবেশ</h3><p>শিক্ষার্থীদের সুশৃঙ্খল সমাবেশের একটি মুহূর্ত</p></div></div>
+            <div class="hero-slide"><img src="https://i.ibb.co.com/hR4ttsHL/Whats-App-Image-2025-07-31-at-11-12-44-AM.jpg" alt="Multimedia Classroom"><div class="hero-slide-caption"><h3>আমাদের মাল্টিমিডিয়া ক্লাসরুম</h3><p>উচ্চ মানের আধুনিক মাল্টিমিডিয়া ক্লাসরুম, যেখানে শিক্ষার্থীরা প্রযুক্তির মাধ্যমে শেখে।</p></div></div>
         </div>
+        <button class="slider-nav prev" aria-label="Previous Slide">❮</button>
+        <button class="slider-nav next" aria-label="Next Slide">❯</button>
+    </div>
 
-        <div class="see-more-container">
-            <button class="see-more-btn" id="see-more-toggle-btn">সম্পূর্ণ পড়ুন</button>
+    <div class="news-ticker-bar">
+        <span class="news-ticker-label"><i class="fas fa-bullhorn me-2"></i>LATEST NEWS</span>
+        <div class="news-ticker-content">
+            <a href="/news">{{ text or "SSC পরীক্ষার ফলাফল প্রকাশিত হয়েছে। পাশের হার ৯৫%।" }}</a>
+            <a href="/news">{{ text2 or "আগামীকাল থেকে বার্ষিক ক্রীড়া প্রতিযোগিতা শুরু হবে।" }}</a>
         </div>
     </div>
+
+    <section class="page-section quick-links-section">
+        <div class="container">
+            <div class="quick-links-grid">
+                <a href="{{ url_for('public.routine') }}" class="quick-link-card animate-on-scroll">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h4>Class Routine</h4>
+                </a>
+                <a href="{{ url_for('public.results') }}" class="quick-link-card animate-on-scroll" style="animation-delay: 0.1s;">
+                    <i class="fas fa-poll"></i>
+                    <h4>Exam Results</h4>
+                </a>
+                <a href="{{ url_for('public.teachers') }}" class="quick-link-card animate-on-scroll" style="animation-delay: 0.2s;">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <h4>Our Teachers</h4>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="page-section about-section">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6 animate-on-scroll">
+                    <img src="https://i.ibb.co.com/hR4ttsHL/Whats-App-Image-2025-07-31-at-11-12-44-AM.jpg" alt="School Campus" class="img-fluid rounded shadow-lg">
+                </div>
+                <div class="col-lg-6 animate-on-scroll" style="animation-delay: 0.2s;">
+                    <h1 class="page-heading">আমাদের সম্পর্কে</h1>
+                    <div class="about-content" id="about-content">
+                        <p>মহম্মদপুর উপজেলার প্রত্যন্ত অঞ্চল বনগ্রাম। এই পলাশ বাড়িয়া ইউনিয়নেই পাকিস্তান আমলের মিনিস্টার এম এ খালেক এবং মাগুরা-২ আসনে পরপর পাঁচবার নির্বাচিত সংসদ সদস্য বীর মুক্তিযোদ্ধা এ্যাড. আছাদুজ্জামানসহ অনেক খ্যাতিমান মানুষের জন্ম...</p>
+                    </div>
+                    <div class="mt-4">
+                        <button class="btn btn-primary" id="see-more-toggle-btn">সম্পূর্ণ পড়ুন</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
+{% endblock %}
 
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const content = document.getElementById('about-content');
-        const toggleBtn = document.getElementById('see-more-toggle-btn');
-
-        if (content && toggleBtn) {
-            toggleBtn.addEventListener('click', () => {
-                const isExpanded = content.classList.toggle('is-expanded');
-
-                if (isExpanded) {
-                    // লেখাটি যখন সম্পূর্ণ দেখা যাবে
-                    content.style.maxHeight = content.scrollHeight + 'px'; // সম্পূর্ণ উচ্চতা সেট করা
-                    toggleBtn.textContent = 'সংক্ষিপ্ত করুন';
-                } else {
-                    // লেখাটি যখন সংক্ষিপ্ত করা হবে
-                    content.style.maxHeight = '220px'; // প্রাথমিক উচ্চতায় ফিরে আসা
-                    toggleBtn.textContent = 'সম্পূর্ণ পড়ুন';
-                }
-            });
-        }
+document.addEventListener('DOMContentLoaded', () => {
+    // --- 1. Particles.js Background ---
+    particlesJS('particles-js', {
+      "particles": {
+        "number": { "value": 40, "density": { "enable": true, "value_area": 800 } },
+        "color": { "value": "#007BFF" },
+        "shape": { "type": "circle" },
+        "opacity": { "value": 0.5, "random": true },
+        "size": { "value": 3, "random": true },
+        "line_linked": { "enable": true, "distance": 150, "color": "#007BFF", "opacity": 0.2, "width": 1 },
+        "move": { "enable": true, "speed": 2, "direction": "none", "out_mode": "out", "bounce": false }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": { "onhover": { "enable": true, "mode": "grab" } },
+        "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 0.5 } } }
+      },
+      "retina_detect": true
     });
-</script>
 
-<script>
-        // Image Slider JavaScript
-        let currentSlideIndex = 0;
-        let slideInterval;
-        let progressInterval;
-        const slides = document.querySelectorAll('.slide');
-        const dots = document.querySelectorAll('.dot');
-        const sliderContainer = document.getElementById('sliderContainer');
-        const progressFill = document.getElementById('progressFill');
+    // --- 2. Hero Slider ---
+    const sliderContainer = document.getElementById('slider-container');
+    if (sliderContainer) {
+        const slides = sliderContainer.querySelectorAll('.hero-slide');
         const totalSlides = slides.length;
-        const slideTime = 5000; // 5 seconds
+        let currentSlide = 0;
+        let autoSlideInterval;
 
-        function showSlide(index) {
-            // Update slide position
-            sliderContainer.style.transform = `translateX(-${index * 100}%)`;
-            
-            // Update active dot
-            dots.forEach(dot => dot.classList.remove('active'));
-            dots[index].classList.add('active');
-            
-            currentSlideIndex = index;
+        function goToSlide(slideIndex) {
+            sliderContainer.style.transform = `translateX(-${slideIndex * 100}%)`;
+            slides.forEach(s => s.querySelector('.hero-slide-caption').style.animation = 'none');
+            slides[slideIndex].offsetHeight;
+            slides[slideIndex].querySelector('.hero-slide-caption').style.animation = '';
+            currentSlide = slideIndex;
         }
+        
+        const nextSlide = () => goToSlide((currentSlide + 1) % totalSlides);
+        const prevSlide = () => goToSlide((currentSlide - 1 + totalSlides) % totalSlides);
 
-        function nextSlide() {
-            currentSlideIndex = (currentSlideIndex + 1) % totalSlides;
-            showSlide(currentSlideIndex);
-        }
+        const startAutoSlide = () => {
+            clearInterval(autoSlideInterval);
+            autoSlideInterval = setInterval(nextSlide, 7000);
+        };
 
-        function changeSlide(direction) {
-            clearInterval(slideInterval);
-            clearInterval(progressInterval);
-            
-            if (direction === 1) {
-                nextSlide();
+        document.querySelector('.slider-nav.next').addEventListener('click', () => { nextSlide(); startAutoSlide(); });
+        document.querySelector('.slider-nav.prev').addEventListener('click', () => { prevSlide(); startAutoSlide(); });
+        
+        startAutoSlide();
+    }
+
+    // --- 3. "Read More" for About Section ---
+    const content = document.getElementById('about-content');
+    const toggleBtn = document.getElementById('see-more-toggle-btn');
+    if (content && toggleBtn) {
+        toggleBtn.addEventListener('click', () => {
+            const isExpanded = content.classList.toggle('is-expanded');
+            if (isExpanded) {
+                content.style.maxHeight = content.scrollHeight + 'px';
+                toggleBtn.textContent = 'সংক্ষিপ্ত করুন';
             } else {
-                currentSlideIndex = (currentSlideIndex - 1 + totalSlides) % totalSlides;
-                showSlide(currentSlideIndex);
+                content.style.maxHeight = '220px';
+                toggleBtn.textContent = 'সম্পূর্ণ পড়ুন';
             }
-            
-            startSlideshow();
-        }
-
-        function currentSlide(index) {
-            clearInterval(slideInterval);
-            clearInterval(progressInterval);
-            showSlide(index - 1);
-            startSlideshow();
-        }
-
-        function updateProgressBar() {
-            let progress = 0;
-            const progressStep = 100 / (slideTime / 50); // Update every 50ms
-            
-            progressInterval = setInterval(() => {
-                progress += progressStep;
-                progressFill.style.width = progress + '%';
-                
-                if (progress >= 100) {
-                    progressFill.style.width = '0%';
-                    progress = 0;
-                }
-            }, 50);
-        }
-
-        function startSlideshow() {
-            // Reset progress bar
-            progressFill.style.width = '0%';
-            updateProgressBar();
-            
-            // Start auto slide
-            slideInterval = setInterval(nextSlide, slideTime);
-        }
-
-        // Pause slideshow on hover
-        const slider = document.querySelector('.image-slider');
-        slider.addEventListener('mouseenter', () => {
-            clearInterval(slideInterval);
-            clearInterval(progressInterval);
         });
-
-        slider.addEventListener('mouseleave', () => {
-            startSlideshow();
-        });
-
-        // Touch support for mobile
-        let startX = 0;
-        let endX = 0;
-
-        slider.addEventListener('touchstart', (e) => {
-            startX = e.touches[0].clientX;
-            clearInterval(slideInterval);
-            clearInterval(progressInterval);
-        });
-
-        slider.addEventListener('touchmove', (e) => {
-            endX = e.touches[0].clientX;
-        });
-
-        slider.addEventListener('touchend', () => {
-            const threshold = 50; // minimum distance for swipe
-            const distance = startX - endX;
-            
-            if (Math.abs(distance) > threshold) {
-                if (distance > 0) {
-                    // Swipe left - next slide
-                    nextSlide();
-                } else {
-                    // Swipe right - previous slide
-                    currentSlideIndex = (currentSlideIndex - 1 + totalSlides) % totalSlides;
-                    showSlide(currentSlideIndex);
-                }
-            }
-            
-            startSlideshow();
-        });
-
-        // Initialize slideshow
-        startSlideshow();
-    </script>
+    }
+});
+</script>
 {% endblock %}

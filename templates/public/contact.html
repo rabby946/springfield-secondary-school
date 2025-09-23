@@ -1,81 +1,234 @@
 {% extends 'base.html' %}
 {% block title %}Contact Us : Bongram Secondary School{% endblock %}
+
+{% block head %}
+<style>
+    main {
+        padding: 0 !important;
+        max-width: none;
+        animation: none;
+    }
+
+    .contact-container {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    /* 1. Welcoming Hero Section */
+    .contact-hero {
+        text-align: center;
+        padding: 3rem 1.5rem; /* Reduced padding on mobile */
+        background-color: var(--bg-white);
+        border-radius: 1rem;
+        margin-bottom: 3rem;
+        box-shadow: var(--shadow);
+    }
+    @media (min-width: 768px) {
+        .contact-hero { padding: 4rem 1.5rem; }
+    }
+
+    .contact-hero h1 {
+        font-family: var(--font-bengali);
+        /* Responsive Font Size: adjusts between 1.8rem and 2.8rem based on screen width */
+        font-size: clamp(1.8rem, 5vw + 1rem, 2.8rem);
+        font-weight: 700;
+        color: var(--text-dark);
+    }
+    .contact-hero p {
+        font-size: 1.1rem;
+        color: var(--text-muted);
+        max-width: 600px;
+        margin: 1rem auto 0;
+    }
+
+    /* ====================================================================== */
+    /* 2. Responsive Contact Info Grid                                        */
+    /* ====================================================================== */
+    .contact-info-grid {
+        display: grid;
+        grid-template-columns: 1fr; /* 1 column on mobile by default */
+        gap: 1.5rem;
+        margin-bottom: 4rem;
+    }
+    @media (min-width: 992px) {
+        /* 3 columns on desktop */
+        .contact-info-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+    .info-card {
+        padding: 2rem;
+        border-radius: 1rem;
+        text-align: center;
+        color: #fff;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+    .info-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+    .info-card .icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .info-card strong { display: block; font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .info-card a, .info-card span { color: rgba(255,255,255,0.9); text-decoration: none; word-break: break-word; }
+    .info-card--phone { background: linear-gradient(135deg, #28a745, #218838); }
+    .info-card--email { background: linear-gradient(135deg, #17a2b8, #138496); }
+    .info-card--address { background: linear-gradient(135deg, #6f42c1, #5a32a3); }
+
+    /* 3. Modern Floating Label Form */
+    .form-section {
+        background-color: #fff;
+        padding: 2.5rem;
+        border-radius: 1rem;
+        box-shadow: var(--shadow);
+    }
+    .form-section h2 { font-size: 1.75rem; font-weight: 600; margin-bottom: 2rem; text-align: center; }
+    .form-group { position: relative; margin-bottom: 2rem; }
+    .form-input, .form-select, .form-textarea {
+        width: 100%; border: 2px solid var(--border-color); border-radius: 8px;
+        padding: 1rem; font-size: 1rem; transition: border-color 0.3s ease;
+        background-color: var(--bg-light);
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+        outline: none; border-color: var(--brand-primary);
+    }
+    .form-label {
+        position: absolute; left: 1rem; top: 1rem; color: var(--text-muted);
+        background-color: var(--bg-light); padding: 0 0.25rem;
+        transition: all 0.2s ease; pointer-events: none;
+    }
+    .form-input:focus + .form-label, .form-input:not(:placeholder-shown) + .form-label,
+    .form-textarea:focus + .form-label, .form-textarea:not(:placeholder-shown) + .form-label,
+    .form-select:valid + .form-label {
+        top: -0.7rem; left: 0.75rem; font-size: 0.85rem; color: var(--brand-primary);
+        background-color: #fff;
+    }
+    .form-textarea { min-height: 120px; }
+    .btn-submit {
+        background: var(--brand-primary); color: #fff; border: none;
+        padding: 0.8rem 2rem; font-weight: 600; border-radius: 50px;
+        cursor: pointer; transition: all 0.3s ease; width: 100%;
+    }
+    .btn-submit:hover {
+        background-color: var(--brand-secondary);
+        box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        transform: translateY(-2px);
+    }
+    
+    /* 4. Map Section */
+    .map-section { margin-top: 4rem; text-align: center; }
+    .map-wrapper { border-radius: 1rem; overflow: hidden; box-shadow: var(--shadow); margin-top: 2rem; }
+    .map-wrapper iframe { border: 0; width: 100%; height: 400px; }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="page-container">
-    <div class="page-header">
-        <h1>Get in Touch</h1>
-    </div>
+<div class="contact-container py-4">
+    <section class="contact-hero animate-on-scroll">
+        <h1>We'd Love to Hear From You</h1>
+        <p>Whether you have a question, a suggestion, or just want to say hello, we are here to listen. Reach out to us through any of the methods below.</p>
+    </section>
 
-    <div class="contact-wrapper">
-        <div class="contact-form-section">
-            <h2>Send Us a Message</h2>
-            <form id="contact-form" novalidate method="POST">
-                <div class="form-group">
-                    <label for="name">Full Name</label>
-                    <input type="text" id="name" name="name" class="form-input" required>
-                    <p class="error-message" id="name-error">Please enter your name.</p>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" class="form-input" required>
-                    <p class="error-message" id="email-error">Please enter your email.</p>
-                </div>
-                <div class="form-group">
-                    <label for="subject">Purpose of Contact</label>
-                    <select id="subject" name="subject" class="form-select" required>
-                        <option value="">-- Please select a reason --</option>
-                        <option value="General Inquiry">General Inquiry</option>
-                        <option value="Information Request">Information Request</option>
-                        <option value="Report an Issue">Report an Issue</option>
-                    </select>
-                    <p class="error-message" id="subject-error">Please select a purpose.</p>
-                </div>
-                <div class="form-group">
-                    <label for="message">Your Message</label>
-                    <textarea id="message" name="message" class="form-textarea" required></textarea>
-                    <p class="error-message" id="message-error">Please enter your message.</p>
-                </div>
-                <button type="submit" class="btn-submit" id="submit-btn">Submit Message</button>
-            </form>
-            <div id="form-result"></div>
+    <section class="contact-info-grid">
+        <div class="info-card info-card--phone animate-on-scroll" style="animation-delay: 0.1s;">
+            <i class="fas fa-phone-alt icon"></i>
+            <strong>Phone</strong>
+            <a href="tel:01309118032">01309-118032</a>
         </div>
+        <div class="info-card info-card--email animate-on-scroll" style="animation-delay: 0.2s;">
+            <i class="fas fa-envelope icon"></i>
+            <strong>Email</strong>
+            <a href="mailto:bongramkmssecondaryschool@gmail.com">bongramkmssecondaryschool@gmail.com</a>
+        </div>
+        <div class="info-card info-card--address animate-on-scroll" style="animation-delay: 0.3s;">
+            <i class="fas fa-map-marker-alt icon"></i>
+            <strong>Address</strong>
+            <span>Bongram, Mohammadpur, Magura, Bangladesh</span>
+        </div>
+    </section>
 
-        <div class="contact-details-section">
-            <h2>Direct Contact</h2>
-            <ul class="contact-info-list">
-                <li>
-                    <i class="fas fa-phone-alt icon"></i>
-                    <div class="info-text">
-                        <strong>Phone</strong>
-                        <span>01309-118032</span>
-                    </div>
-                    <button class="copy-btn" data-copy="01309-118032" title="Copy phone number">
-                        <i class="far fa-copy"></i>
-                    </button>
-                </li>
-                <li>
-                    <i class="fas fa-envelope icon"></i>
-                    <div class="info-text">
-                        <strong>Email</strong>
-                        <span>bongramkmssecondaryschool@gmail.com</span>
-                    </div>
-                    <button class="copy-btn" data-copy="s118044@gmail.com" title="Copy email address">
-                        <i class="far fa-copy"></i>
-                    </button>
-                </li>
-                <li>
-                    <i class="fas fa-map-marker-alt icon"></i>
-                    <div class="info-text">
-                        <strong>Address</strong>
-                        <span>Bongram, Mohammadpur, Magura, Bangladesh</span>
-                    </div>
-                </li>
-            </ul>
-            <h2>Our Location</h2>
-            <div class="map-wrapper">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d709.5693379130126!2d89.57666521124388!3d23.333009390166914!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e6!4m5!1s0x39ffb32c0b7fbc83%3A0xe4eb0a8b906a0761!2zQm9uZ3JhbSBLTVMgSGlnaCBTY2hvb2wsIOCmrOCmvuCmnOCmvuCmsA!3m2!1d23.3332202!2d89.5770124!4m5!1s0x39ffb32c0b7fbc83%3A0xe4eb0a8b906a0761!2zOEhKRytXR0Yg4Kas4Ka-4Kac4Ka-4Kaw!3m2!1d23.3332202!2d89.5770124!5e1!3m2!1sen!2sbd!4v1756284467309!5m2!1sen!2sbd" width="800" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <section class="form-section animate-on-scroll" style="animation-delay: 0.4s;">
+        <h2>Send Us a Message</h2>
+        <form id="contact-form" novalidate method="POST">
+            <div class="form-group">
+                <input type="text" id="name" name="name" class="form-input" placeholder=" " required>
+                <label for="name" class="form-label">Full Name</label>
             </div>
+            <div class="form-group">
+                <input type="email" id="email" name="email" class="form-input" placeholder=" " required>
+                <label for="email" class="form-label">Email Address</label>
+            </div>
+            <div class="form-group">
+                <select id="subject" name="subject" class="form-select form-input" required>
+                    <option value="" disabled selected hidden></option>
+                    <option value="General Inquiry">General Inquiry</option>
+                    <option value="Information Request">Information Request</option>
+                    <option value="Report an Issue">Report an Issue</option>
+                </select>
+                <label for="subject" class="form-label">Purpose of Contact</label>
+            </div>
+            <div class="form-group">
+                <textarea id="message" name="message" class="form-input form-textarea" placeholder=" " required></textarea>
+                <label for="message" class="form-label">Your Message</label>
+            </div>
+            <button type="submit" class="btn-submit" id="submit-btn">Submit Message</button>
+        </form>
+    </section>
+
+    <section class="map-section animate-on-scroll" style="animation-delay: 0.5s;">
+        <h2 class="page-heading">Our Location</h2>
+        <div class="map-wrapper">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1416.7575238340592!2d89.5769845362216!3d23.33263858144178!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ffb32c0b7fbc83%3A0xe4eb0a8b906a0761!2sBongram%20KMS%20High%20School!5e1!3m2!1sen!2sbd!4v1758614227089!5m2!1sen!2sbd" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
-    </div>
+    </section>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // AJAX Form Submission (No changes needed, should work as is)
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const submitBtn = document.getElementById('submit-btn');
+            const originalBtnText = submitBtn.innerHTML;
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Sending...';
+
+            const formData = new FormData(contactForm);
+            
+            fetch("{{ url_for('public.contact') }}", {
+                method: 'POST',
+                body: new URLSearchParams(formData).toString(),
+                headers: { 
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    contactForm.reset();
+                    // Your backend should flash a success message which will be
+                    // picked up by the toast notification script in base.html
+                    window.location.reload(); 
+                } else {
+                    alert(data.error || 'An error occurred.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An unexpected network error occurred.');
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+            });
+        });
+    }
+});
+</script>
 {% endblock %}

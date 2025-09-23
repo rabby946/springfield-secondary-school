@@ -3,102 +3,122 @@
 
 {% block content %}
 <style>
-    /* A completely new, unique "Digital Magazine" design */
+    /* A completely new, unique "Immersive Hero" design */
     :root {
-        --page-bg: #F9FAFB; /* Off-white for a softer, premium feel */
+        --page-bg: #F9FAFB;
         --text-dark: #111827;
         --text-light: #6B7280;
-        --text-accent: #0d6efd;
+        --card-bg: rgba(255, 255, 255, 0.9);
         --border-color: #E5E7EB;
-        --font-heading: 'Playfair Display', serif;
+        --font-heading: 'Playfair Display', serif; /* Elegant serif for names */
         --font-body: 'Poppins', sans-serif;
     }
+    
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500&display=swap');
 
     .profile-page-wrapper {
-        background-color: var(--page-bg);
+        padding: 0; /* Remove default padding to allow full-width hero */
         font-family: var(--font-body);
         color: var(--text-light);
+    }
+    
+    /* The main hero banner */
+    .profile-hero {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 80vh;
         padding: 4rem 2rem;
-        min-height: 100vh;
-        animation: fadeIn 0.8s ease-out forwards;
+        background-size: cover;
+        background-position: center;
+        overflow: hidden;
+    }
+    /* Dark overlay for text contrast */
+    .profile-hero::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-color: rgba(17, 24, 39, 0.5);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
     }
 
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
+    /* The floating card */
+    .profile-card-immersive {
+        position: relative;
+        z-index: 2;
+        max-width: 800px;
+        width: 100%;
+        background-color: var(--card-bg);
+        border-radius: 1rem;
+        box-shadow: 0 20px 40px -10px rgba(0,0,0,0.3);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 3rem 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        animation: fadeInUp 0.8s 0.2s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    @media (min-width: 768px) {
+        .profile-card-immersive { padding: 4rem; }
+    }
+    @keyframes fadeInUp {
         to { opacity: 1; transform: translateY(0); }
     }
 
-    .profile-container-magazine {
-        max-width: 1000px;
-        margin: 0 auto;
-        display: grid;
-        grid-template-columns: 1fr;
-        align-items: center;
-        gap: 3rem;
-    }
-    @media (min-width: 992px) {
-        .profile-container-magazine {
-            grid-template-columns: 2fr 3fr; /* Asymmetric layout */
-        }
-    }
-
-    /* --- Image Section --- */
-    .profile-image-magazine {
-        border-radius: 16px;
-        overflow: hidden;
-        box-shadow: 0 20px 40px -10px rgba(0,0,0,0.2);
-        display: block; /* Ensures it's treated as a block for layout */
-    }
-    .profile-image-magazine img {
-        width: 100%;
-        height: auto;
-        display: block;
-        transition: transform 0.4s ease;
-    }
-    .profile-image-magazine:hover img {
-        transform: scale(1.05);
+    .profile-avatar-immersive {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-top: -100px; /* Pulls the avatar up to overlap the card edge */
+        margin-bottom: 1.5rem;
+        border: 5px solid #fff;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     }
     
-    /* --- Details Section --- */
-    .profile-details-magazine {
-        padding: 1rem 0;
-    }
-    .profile-name-magazine {
+    .profile-name-immersive {
         font-family: var(--font-heading);
-        font-size: 3.5rem;
+        font-size: 3rem;
         font-weight: 700;
         color: var(--text-dark);
         margin: 0 0 0.5rem 0;
         line-height: 1.1;
     }
-    .profile-position-magazine {
+     @media (min-width: 768px) { .profile-name-immersive { font-size: 4rem; } }
+
+    .profile-position-immersive {
         font-size: 1.25rem;
         font-weight: 500;
-        color: var(--text-accent);
+        color: var(--text-dark);
+        opacity: 0.8;
         margin: 0 0 2rem 0;
     }
-    .profile-description-magazine {
+    .profile-description-immersive {
         font-size: 1.1rem;
         line-height: 1.8;
         margin: 0 0 2.5rem 0;
-        border-left: 3px solid var(--border-color);
-        padding-left: 1.5rem;
+        max-width: 600px;
     }
-    .back-button-magazine {
+    .back-button-immersive {
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
         font-size: 1rem;
         font-weight: 500;
-        color: var(--text-dark);
-        background-color: #fff;
+        color: var(--text-light);
+        background-color: transparent;
         border: 1px solid var(--border-color);
         text-decoration: none;
         padding: 0.75rem 1.5rem;
         border-radius: 50px;
         transition: all 0.3s ease;
     }
-    .back-button-magazine:hover {
+    .back-button-immersive:hover {
         background-color: var(--text-dark);
         color: #fff;
         border-color: var(--text-dark);
@@ -107,32 +127,36 @@
 </style>
 
 <div class="profile-page-wrapper">
-    <div class="profile-container-magazine">
+    <div class="profile-hero" style="background-image: url('{{ item.image_url or url_for('static', filename='images/default-avatar.png') }}');">
+        
+        <div class="profile-card-immersive">
+            <a href="{{ item.image_url or url_for('static', filename='images/default-avatar.png') }}"
+               data-fancybox="profile"
+               data-caption="{{ item.name }}">
+                <img src="{{ item.image_url or url_for('static', filename='images/default-avatar.png') }}" alt="{{ item.name }}" class="profile-avatar-immersive">
+            </a>
 
-        <a href="{{ item.image_url or url_for('static', filename='images/default-avatar.png') }}"
-           data-fancybox="profile"
-           data-caption="{{ item.name }}"
-           class="profile-image-magazine">
-            <img src="{{ item.image_url or url_for('static', filename='images/default-avatar.png') }}" alt="{{ item.name }}">
-        </a>
+            <h1 class="profile-name-immersive">{{ item.name }}</h1>
+            <p class="profile-position-immersive">{{ item.position }}</p>
+            <p class="profile-description-immersive">{{ description }}</p>
 
-        <div class="profile-details-magazine">
-            <h1 class="profile-name-magazine">{{ item.name }}</h1>
-            <p class="profile-position-magazine">{{ item.position }}</p>
-            <p class="profile-description-magazine">{{ description }}</p>
-            <a href="{{ url_for(endpoint) }}" class="back-button-magazine">
+            <a href="{{ url_for(endpoint) }}" class="back-button-immersive">
                 <i class="fas fa-arrow-left"></i>
                 <span>Go Back</span>
             </a>
         </div>
+
     </div>
 </div>
 
 <script>
-    // Initialize Fancybox
+    // Fancybox is a third-party library. Ensure you have it linked in your main base template for this to work.
+    // Example link for your base.html <head>:
+    // <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
+    // <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"><\/script>
     document.addEventListener('DOMContentLoaded', () => {
         Fancybox.bind("[data-fancybox]", {
-            // Your custom options can go here
+            // Your custom options
             Thumbs: false,
             Toolbar: {
                 display: {

@@ -8,9 +8,9 @@ from functools import wraps
 from models import db, News, Gallery, Teacher, Student, Committee, MPO, Result, Routine
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from werkzeug.utils import secure_filename
-from models import db, Teacher, Student, MPO, Committee, Result, Routine, News, Gallery, Report
+from models import db, Teacher, Student, MPO, Committee, Result, Routine, News, Gallery, Report, HTeacher
 import os
-from utils import admin_required, upload_to_imgbb
+from utils import admin_required, upload_image
 
 admin_bp = Blueprint("admin", __name__, url_prefix="/admin")
 
@@ -97,7 +97,7 @@ def add_teacher():
         if "photo" in request.files:
             file = request.files["photo"]
             if file.filename:
-                image_url = upload_to_imgbb(file)
+                image_url = upload_image(file)
 
         teacher = Teacher(name=name, position=description, image_url=image_url)
         db.session.add(teacher)
@@ -119,7 +119,7 @@ def edit_teacher(id):
         if "photo" in request.files:
             file = request.files["photo"]
             if file.filename:
-                image_url = upload_to_imgbb(file)
+                image_url = upload_image(file)
                 teacher.image_url = image_url
         db.session.commit()
         flash("Teacher updated successfully!", "success")
@@ -173,7 +173,7 @@ def add_student():
         if "photo" in request.files:
             file = request.files["photo"]
             if file.filename:
-                image_url = upload_to_imgbb(file)
+                image_url = upload_image(file)
 
         student = Student(name=name, roll=description, image_url=image_url)
         db.session.add(student)
@@ -195,7 +195,7 @@ def edit_student(id):
         if "photo" in request.files:
             file = request.files["photo"]
             if file.filename:
-                image_url = upload_to_imgbb(file)
+                image_url = upload_image(file)
                 student.image_url = image_url
         db.session.commit()
         flash("Student updated successfully!", "success")
@@ -251,7 +251,7 @@ def add_mpo():
         if "filename" in request.files:
             file = request.files["filename"]
             if file.filename:
-                image_url = upload_to_imgbb(file)
+                image_url = upload_image(file)
 
         mpo = MPO(name=name, designation=designation, image_url=image_url)
         db.session.add(mpo)
@@ -272,7 +272,7 @@ def edit_mpo(id):
         if "filename" in request.files:
             file = request.files["filename"]
             if file.filename:
-                image_url = upload_to_imgbb(file)
+                image_url = upload_image(file)
                 mpo.image_url = image_url
 
         db.session.commit()
@@ -327,7 +327,7 @@ def add_committee():
         if "filename" in request.files:
             file = request.files["filename"]
             if file.filename:
-                image_url = upload_to_imgbb(file)
+                image_url = upload_image(file)
         committee = Committee(name=name, designation=description, image_url=image_url)
         db.session.add(committee)
         db.session.commit()
@@ -348,7 +348,7 @@ def edit_committee(id):
         if "filename" in request.files:
             file = request.files["filename"]
             if file.filename:
-                image_url = upload_to_imgbb(file)
+                image_url = upload_image(file)
                 committee.image_url = image_url
 
         db.session.commit()
@@ -612,7 +612,7 @@ def add_gallery():
         filenames = []
         for file in files:
             if file:
-                filenames.append(upload_to_imgbb(file))
+                filenames.append(upload_image(file))
 
         gallery = Gallery(title=title, description=description, images=",".join(filenames))
         db.session.add(gallery)
@@ -637,7 +637,7 @@ def edit_gallery(id):
             new_filenames = []
             for file in files:
                 if file:
-                    image_url = upload_to_imgbb(file) 
+                    image_url = upload_image(file) 
                     new_filenames.append(image_url)
             gallery.images = ",".join(new_filenames)
             flash("Gallery item updated with new images successfully!", "success")
@@ -678,3 +678,61 @@ def gallery_swap():
     return render_template("admin/gallery_swap.html", items=items)
 
 
+
+# ------------------ TEACHERS ------------------ #
+
+@admin_bp.route("/hteachers")
+@admin_required
+def hteachers():
+    items = HTeacher.query.order_by(HTeacher.id.desc()).all()
+    return render_template("admin/hteachers.html", items=items)
+
+@admin_bp.route("/hteachers/add", methods=["GET", "POST"])
+@admin_required
+def add_hteacher():
+    if request.method == "POST":
+        name = request.form.get("name")
+        description = request.form.get("description")
+        file = request.files.get("filename")
+
+        image_url = None
+        if "photo" in request.files:
+            file = request.files["photo"]
+            if file.filename:
+                image_url = upload_image(file)
+
+        hteacher = HTeacher(name=name, description=description, image_url=image_url)
+        db.session.add(hteacher)
+        db.session.commit()
+        flash("Head Teacher added successfully!", "success")
+        return redirect(url_for("admin.hteachers"))
+
+    return render_template("admin/add_hteacher.html")
+
+@admin_bp.route("/hteachers/edit/<int:id>", methods=["GET", "POST"])
+@admin_required
+def edit_hteacher(id):
+    hteacher = HTeacher.query.get_or_404(id)
+    if request.method == "POST":
+        hteacher.name = request.form.get("name")
+        hteacher.position = request.form.get("description")
+        file = request.files.get("photo")
+        image_url = None
+        if "photo" in request.files:
+            file = request.files["photo"]
+            if file.filename:
+                image_url = upload_image(file)
+                hteacher.image_url = image_url
+        db.session.commit()
+        flash("Head Teacher updated successfully!", "success")
+        return redirect(url_for("admin.hteachers"))
+    return render_template("admin/edit_hteacher.html", item=hteacher)
+
+@admin_bp.route("/hteachers/delete/<int:id>")
+@admin_required
+def delete_hteacher(id):
+    hteacher = HTeacher.query.get_or_404(id)
+    db.session.delete(hteacher)
+    db.session.commit()
+    flash("Head Teacher deleted successfully!", "success")
+    return redirect(url_for("admin.hteachers"))

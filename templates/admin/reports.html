@@ -1,47 +1,254 @@
 {% extends 'base.html' %}
-{% block title %}reports{% endblock %}
+{% block title %}Contact Reports{% endblock %}
+
 {% block content %}
+<style>
+    /* New, unique styles for the Reports Inbox page */
+    :root {
+        --inbox-bg: #f8fafc;
+        --inbox-card-bg: #ffffff;
+        --inbox-primary: #0dcaf0; /* Your preferred Cyan */
+        --inbox-border: #e2e8f0;
+        --inbox-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        --inbox-text-dark: #1e293b;
+        --inbox-text-light: #64748b;
+        --inbox-unread-bg: #ecfeff; /* Light cyan for unread items */
+        --inbox-font: 'Poppins', sans-serif;
+    }
 
-<div class="ts-container">
+    .reports-container {
+        font-family: var(--inbox-font);
+        max-width: 900px;
+        margin: 2rem auto;
+        padding: 1rem;
+        animation: fadeIn 0.5s ease-out;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-    <header class="ts-header">
-        <h2 class="ts-header__title">All Reports</h2>
-        <div class="ts-header__controls">
-            <div class="ts-search-wrapper">
-                <i class="fas fa-search ts-search-icon"></i>
-                <input type="text" id="reportsSearch" placeholder="Search by name or position..." class="ts-search-input">
-            </div>
-            <!-- <a href="{{ url_for('admin.dashboard') }}" class="ts-add-btn">
-                <i class="fas fa-plus mr-2"></i> back
-            </a> -->
-        </div>
+    .reports-header {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+    }
+    .reports-title {
+        font-size: 2.2rem;
+        font-weight: 600;
+        color: var(--inbox-text-dark);
+    }
+    .admin-btn--back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1rem;
+        font-weight: 500;
+        text-decoration: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        color: var(--inbox-text-dark);
+        background-color: #e9ecef;
+        transition: all 0.3s ease;
+        border: 1px solid var(--inbox-border);
+    }
+    .admin-btn--back:hover {
+        background-color: #dee2e6;
+        transform: translateY(-2px);
+    }
+
+    .search-wrapper {
+        position: relative;
+        width: 100%;
+        margin-bottom: 2rem;
+    }
+    .search-icon {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--inbox-text-light);
+    }
+    .search-input {
+        width: 100%;
+        padding: 12px 1rem 12px 2.75rem;
+        border: 1px solid var(--inbox-border);
+        border-radius: 50px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+    .search-input:focus {
+        outline: none;
+        border-color: var(--inbox-primary);
+        box-shadow: 0 0 0 4px rgba(13, 202, 240, 0.15);
+    }
+
+    .reports-list {
+        background-color: var(--inbox-card-bg);
+        border-radius: 1rem;
+        box-shadow: var(--inbox-shadow);
+        border: 1px solid var(--inbox-border);
+        overflow: hidden;
+    }
+    
+    .report-item {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        padding: 1.5rem;
+        border-bottom: 1px solid var(--inbox-border);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        /* For JS animation */
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    .report-item:last-child { border-bottom: none; }
+    .report-item:hover {
+        transform: translateX(5px);
+        background-color: var(--inbox-bg);
+    }
+
+    .report-item__icon {
+        font-size: 1.5rem;
+        color: var(--inbox-primary);
+        background-color: var(--inbox-unread-bg);
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .report-item__content {
+        flex-grow: 1;
+        overflow: hidden;
+    }
+    .report-item__name {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--inbox-text-dark);
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .report-item__purpose {
+        font-size: 1rem;
+        color: var(--inbox-text-light);
+        margin: 0.25rem 0 0 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .report-item__action {
+        color: var(--inbox-text-light);
+        font-size: 1.5rem;
+        transition: transform 0.3s ease;
+    }
+    .report-item:hover .report-item__action {
+        transform: translateX(5px);
+        color: var(--inbox-primary);
+    }
+    
+    .no-results-message {
+        display: none;
+        text-align: center;
+        padding: 4rem;
+        font-size: 1.25rem;
+        color: var(--inbox-text-light);
+    }
+</style>
+<div class="reports-container">
+    <header class="reports-header animate-on-scroll">
+        <h1 class="reports-title">Contact Reports Inbox</h1>
+        <a href="{{ url_for('admin.dashboard') }}" class="admin-btn--back">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
     </header>
 
+    <div class="search-wrapper animate-on-scroll" style="animation-delay: 0.1s;">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" id="reportsSearch" placeholder="Search by name or purpose..." class="search-input">
+    </div>
+
     <main>
-        <div id="teacherGrid" class="ts-grid">
+        <div class="reports-list">
             {% for t in items %}
-            <div class="ts-card" data-name="{{ t.name }}" data-position="{{ t.position }}">
-                
-                <div class="ts-card__content">
-                    <h3 class="ts-card__name">{{ t.name}}</h3>
-                    <!-- <p class="ts-card__position">{{ t.email}}</p> -->
-                    <p class="ts-card__position">{{ t.purpose}}</p>
-                    <!-- <p class="ts-card__position">{{ t.message}}</p> -->
-                    <div class="ts-card__actions">
-                        <a href="{{ url_for('admin.more_about', id=t.id) }}" class="ts-action-btn ts-action-btn--edit" title="More">
-                            <i class="fas fa-external-link-alt"></i>
-                        </a>
-                        
-                    </div>
+            <a href="{{ url_for('admin.more_about', id=t.id) }}" class="report-item animate-on-scroll" 
+               style="animation-delay: {{ 0.2 + loop.index0 * 0.05 }}s;"
+               data-name="{{ t.name }}" data-purpose="{{ t.purpose }}">
+                <div class="report-item__icon">
+                    <i class="fas fa-envelope-open-text"></i>
                 </div>
+                <div class="report-item__content">
+                    <h3 class="report-item__name">{{ t.name }}</h3>
+                    <p class="report-item__purpose">{{ t.purpose }}</p>
+                </div>
+                <div class="report-item__action">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </a>
+            {% else %}
+            <div class="text-center p-5">
+                <p class="h5 text-muted">There are no reports to display.</p>
             </div>
             {% endfor %}
         </div>
         
-        <div id="noResultsMessage" class="ts-no-results">
+        <div id="noResultsMessage" class="no-results-message">
             <p>No reports found matching your search.</p>
         </div>
     </main>
 </div>
+{% endblock %}
 
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('reportsSearch');
+    const noResultsMessage = document.getElementById('noResultsMessage');
+    const reportItems = document.querySelectorAll('.report-item');
+
+    if (searchInput) {
+        searchInput.addEventListener('keyup', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            let visibleCount = 0;
+
+            reportItems.forEach(item => {
+                const name = (item.dataset.name || '').toLowerCase();
+                const purpose = (item.dataset.purpose || '').toLowerCase();
+
+                if (name.includes(searchTerm) || purpose.includes(searchTerm)) {
+                    item.style.display = 'flex';
+                    visibleCount++;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            if (noResultsMessage) {
+                noResultsMessage.style.display = visibleCount === 0 ? 'block' : 'none';
+            }
+        });
+    }
+
+    // Scroll Animations (using the class from base.html)
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.animate-on-scroll').forEach(element => {
+        observer.observe(element);
+    });
+});
+</script>
 {% endblock %}

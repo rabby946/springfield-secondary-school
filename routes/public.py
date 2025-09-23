@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
-from models import News, Gallery, Teacher, Student, Committee, MPO, Result, Routine, Report
+from models import News, Gallery, Teacher, Student, Committee, MPO, Result, Routine, Report, HTeacher
 from extensions import  db
 public_bp = Blueprint("public", __name__)
 
@@ -45,6 +45,17 @@ def teachers():
 def teacher_detail(id):
     item = Teacher.query.get_or_404(id)
     return render_template("public/entity_detail.html",item=item,description=item.position, endpoint="public.teachers")
+
+# ---------- Head Teachers ----------
+@public_bp.route("/hteachers")
+def hteachers():
+    items = HTeacher.query.order_by(HTeacher.id.desc()).all()
+    return render_template("public/entity.html",entity_items=items,entity_name="HTeachers",detail_endpoint="public.hteacher_detail")
+
+@public_bp.route("/hteacher/<int:id>")
+def hteacher_detail(id):
+    item = HTeacher.query.get_or_404(id)
+    return render_template("public/entity_detail.html",item=item,description=item.description, endpoint="public.hteachers")
 
 
 # ---------- Students ----------
@@ -105,7 +116,7 @@ def contact():
         report = Report(name=name, email=email, purpose=purpose, message=message)
         db.session.add(report)
         db.session.commit()
-
+        flash("posted your issue")
         if request.is_json or request.headers.get("X-Requested-With") == "XMLHttpRequest":
             return {"success": True}
 

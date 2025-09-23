@@ -1,135 +1,208 @@
 {% extends 'base.html' %}
 {% block title %}Admin Panel: Bongram Secondary School{% endblock %}
-{% block content %}
 
+{% block content %}
 <style>
   :root {
-    --card-bg: linear-gradient(90deg, rgb(253, 243, 243) 0%, rgba(218, 230, 255, 0.987) 50%);
-    --card-border-color: rgba(182, 120, 34, 0.25);
-    --primary-text: #120808;
-    --secondary-text: #433c16;
-    --hover-bg: rgba(0, 123, 255, 0.7);
-    --hover-border-color: rgba(0, 123, 255, 1);
-    --logout-hover-bg: rgba(220, 53, 69, 0.7);
-    --logout-hover-border-color: rgba(220, 53, 69, 1);
-    
+    --admin-bg: #f8fafc;
+    --admin-card-bg: #ffffff;
+    --admin-border: #e2e8f0;
+    --admin-primary: #0d6efd;
+    --admin-danger: #dc3545;
+    --admin-text-dark: #1e293b;
+    --admin-text-light: #64748b;
+    --admin-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --admin-shadow-hover: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --admin-radius: 0.75rem;
   }
 
   .admin-dashboard-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 99vh;
-    padding: 4rem;
-    /* padding-bottom: 40%; */
+    padding: 1.5rem; /* Reduced padding for mobile */
+    background-color: var(--admin-bg);
+    min-height: 100vh;
+    animation: fadeIn 0.5s ease-out;
   }
+  @media (min-width: 768px) {
+    .admin-dashboard-container {
+        padding: 2rem;
+    }
+  }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-  .dashboard-card {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border-color);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    padding: 2.5rem;
-    border-radius: 1.5rem;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-    width: 100%;
-    max-width: 800px;
+  .dashboard-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
     opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.5s 0.2s forwards;
+    animation: fadeInUp 0.5s 0.1s forwards;
+  }
+  .dashboard-header h1 {
+    font-size: 1.75rem; /* Adjusted for mobile */
+    font-weight: 700;
+    color: var(--admin-text-dark);
+  }
+  @media (min-width: 768px) {
+    .dashboard-header h1 { font-size: 2rem; }
+  }
+  .dashboard-header p {
+    font-size: 1.1rem;
+    color: var(--admin-text-light);
+    margin-top: 0.25rem;
   }
 
   @keyframes fadeInUp {
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .dashboard-header { text-align: center; margin-bottom: 2.5rem; }
-  .dashboard-header h2 { font-size: 2.5rem; color: #fff; font-weight: 600; margin: 0; text-shadow: 0 2px 4px rgba(0,0,0,0.4); }
-  .dashboard-header p { font-size: 1.1rem; color: var(--secondary-text); margin-top: 0.5rem; }
-
-  .dashboard-grid {
+  .management-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: 1fr; /* 1 column on mobile */
     gap: 1.5rem;
   }
+  @media (min-width: 576px) {
+    .management-grid { grid-template-columns: repeat(2, 1fr); } /* 2 columns on tablets */
+  }
+  @media (min-width: 992px) {
+    .management-grid { grid-template-columns: repeat(3, 1fr); } /* 3 columns on desktops */
+  }
+  @media (min-width: 1200px) {
+    .management-grid { grid-template-columns: repeat(4, 1fr); } /* 4 columns on large desktops */
+  }
 
-  .admin-link {
+  .management-card {
+    display: block;
+    background-color: var(--admin-card-bg);
+    border: 1px solid var(--admin-border);
+    border-radius: var(--admin-radius);
+    padding: 1.5rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s forwards;
+  }
+
+  .management-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--admin-shadow-hover);
+    border-color: var(--admin-primary);
+  }
+
+  .card-icon {
+    font-size: 1.5rem;
+    width: 48px;
+    height: 48px;
+    border-radius: 0.5rem;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 1.5rem;
-    background: transparent;
-    border: 1px solid var(--card-border-color);
-    border-radius: 1rem;
-    text-decoration: none;
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--primary-text);
-    text-align: center;
-    transition: all 0.9s cubic-bezier(0.25, 0.8, 0.25, 1);
-  }
-
-  .admin-link:hover {
-    background: var(--hover-bg);
+    margin-bottom: 1.25rem;
+    background-color: var(--admin-primary);
     color: #fff;
-    transform: translateY(-8px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-    border-color: var(--hover-border-color);
+  }
+  
+  .card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--admin-text-dark);
+    margin-bottom: 0.5rem;
   }
 
-  .admin-link i { font-size: 2.5rem; margin-bottom: 1rem; transition: transform 0.3s ease; }
-  .admin-link:hover i { transform: scale(1.1); }
-
-  .admin-link.logout:hover {
-    background: var(--logout-hover-bg);
-    border-color: var(--logout-hover-border-color);
- 
+  .card-description {
+    font-size: 0.9rem;
+    color: var(--admin-text-light);
+    line-height: 1.5;
   }
 </style>
 
 <div class="admin-dashboard-container">
-  <div class="dashboard-card">
     <div class="dashboard-header">
-      <h1><i class="fas fa-user-shield"></i> Admin Panel</h1>
-      <p id="greeting">Welcome back, Admin!</p>
+        <div>
+            <h1><i class="fas fa-user-shield me-2"></i>Admin Dashboard</h1>
+            <p id="greeting">Welcome back, Admin!</p>
+        </div>
+        <div>
+            <a href="{{ url_for('admin.logout') }}" class="btn btn-danger">
+                <i class="fas fa-sign-out-alt me-2"></i>Logout
+            </a>
+        </div>
     </div>
 
-    <div class="dashboard-grid">
-      <a href="{{ url_for('admin.news') }}" class="admin-link"><i class="fas fa-newspaper"></i> Manage News</a>
-      <a href="{{ url_for('admin.gallery') }}" class="admin-link"><i class="fas fa-images"></i> Manage Gallery</a>
-      <a href="{{ url_for('admin.teachers') }}" class="admin-link"><i class="fas fa-chalkboard-teacher"></i> Manage Teachers</a>
-      <a href="{{ url_for('admin.committees') }}" class="admin-link"><i class="fas fa-sitemap"></i> Manage Committees</a>
-      <a href="{{ url_for('admin.students') }}" class="admin-link"><i class="fas fa-user-graduate"></i> Manage Students</a>
-      <a href="{{ url_for('admin.mpos') }}" class="admin-link"><i class="fas fa-award"></i> Manage Accreditations</a>
-      <a href="{{ url_for('admin.routines') }}" class="admin-link"><i class="fas fa-calendar-alt"></i> Manage Routine</a>
-      <a href="{{ url_for('admin.results') }}" class="admin-link"><i class="fas fa-poll"></i> Manage Results</a>
-      <a href="{{ url_for('admin.reports') }}" class="admin-link"><i class="fas fa-envelope"></i> See reports</a>
+    <div class="management-grid">
+      <a href="{{ url_for('admin.news') }}" class="management-card" style="animation-delay: 0.2s;">
+        <div class="card-icon"><i class="fas fa-newspaper"></i></div>
+        <h3 class="card-title">Manage News</h3>
+        <p class="card-description">Create, edit, and publish school news and announcements.</p>
+      </a>
+      <a href="{{ url_for('admin.gallery') }}" class="management-card" style="animation-delay: 0.3s;">
+        <div class="card-icon"><i class="fas fa-images"></i></div>
+        <h3 class="card-title">Manage Gallery</h3>
+        <p class="card-description">Upload and organize photos for the school gallery.</p>
+      </a>
+      <a href="{{ url_for('admin.teachers') }}" class="management-card" style="animation-delay: 0.4s;">
+        <div class="card-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+        <h3 class="card-title">Manage Teachers</h3>
+        <p class="card-description">Add, update, or remove teacher profiles and information.</p>
+      </a>
+       <a href="{{ url_for('admin.hteachers') }}" class="management-card" style="animation-delay: 0.5s;">
+        <div class="card-icon"><i class="fas fa-user-tie"></i></div>
+        <h3 class="card-title">Manage Head Teachers</h3>
+        <p class="card-description">Update information for past and present head teachers.</p>
+      </a>
+
+      <a href="{{ url_for('admin.committees') }}" class="management-card" style="animation-delay: 0.6s;">
+        <div class="card-icon"><i class="fas fa-sitemap"></i></div>
+        <h3 class="card-title">Manage Committees</h3>
+        <p class="card-description">Organize details of the school's managing committees.</p>
+      </a>
+      <a href="{{ url_for('admin.students') }}" class="management-card" style="animation-delay: 0.7s;">
+        <div class="card-icon"><i class="fas fa-user-graduate"></i></div>
+        <h3 class="card-title">Manage Students</h3>
+        <p class="card-description">View and manage student records and information.</p>
+      </a>
+      <a href="{{ url_for('admin.routines') }}" class="management-card" style="animation-delay: 0.8s;">
+        <div class="card-icon"><i class="fas fa-calendar-alt"></i></div>
+        <h3 class="card-title">Manage Routine</h3>
+        <p class="card-description">Update and publish the class and exam routines.</p>
+      </a>
+      <a href="{{ url_for('admin.results') }}" class="management-card" style="animation-delay: 0.9s;">
+        <div class="card-icon"><i class="fas fa-poll"></i></div>
+        <h3 class="card-title">Manage Results</h3>
+        <p class="card-description">Input and publish student exam results.</p>
+      </a>
       
+      <a href="{{ url_for('admin.mpos') }}" class="management-card" style="animation-delay: 1.0s;">
+        <div class="card-icon"><i class="fas fa-award"></i></div>
+        <h3 class="card-title">Manage Accreditations</h3>
+        <p class="card-description">Update MPO and other official school accreditation details.</p>
+      </a>
+       <a href="{{ url_for('admin.reports') }}" class="management-card" style="animation-delay: 1.1s;">
+        <div class="card-icon"><i class="fas fa-envelope"></i></div>
+        <h3 class="card-title">View Reports</h3>
+        <p class="card-description">Check messages and reports submitted via the contact form.</p>
+      </a>
     </div>
-    <!-- <P>~</P> -->
-     <br>
-  <a href="{{ url_for('admin.logout') }}" class="admin-link logout"><i class="fas fa-sign-out-alt"></i>  Logout</a>  
-  </div>
-    
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const greetingElement = document.getElementById('greeting');
-  const currentHour = new Date().getHours();
-  let greetingText = 'Welcome back, Admin!';
-  if (currentHour < 8) greetingText = 'Welcome at midnight, Admin!';
-  else if (currentHour < 12) greetingText = 'Good Morning, Admin!';
-  else if (currentHour < 18) greetingText = 'Good Afternoon, Admin!';
-  else greetingText = 'Good Evening, Admin!';
-
-  greetingElement.textContent = greetingText;
+  if (greetingElement) {
+    const currentHour = new Date().getHours();
+    let greetingText = 'Welcome back, Admin!';
+    if (currentHour < 12) {
+      greetingText = 'Good Morning, Admin!';
+    } else if (currentHour < 18) {
+      greetingText = 'Good Afternoon, Admin!';
+    } else {
+      greetingText = 'Good Evening, Admin!';
+    }
+    greetingElement.textContent = greetingText;
+  }
 });
 </script>
 
 {% endblock %}
-
-
-
-
